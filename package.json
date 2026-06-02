@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@hotwired/turbo-rails": "^8.0.23",
+    "flowbite": "^4.0.2",
     "graphql": "^16.14.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
