@@ -2,10 +2,8 @@ source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.1.3"
-# Static Typing
-gem "rbs_rails", require: false
 # HAML over ERB
-gem 'haml-rails'
+gem "haml-rails"
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
@@ -49,9 +47,12 @@ gem "rack-cors"
 
 gem "graphql"
 
-gem "graphiql-rails"
-
 group :development, :test do
+  gem "graphiql-rails"
+
+  # Static Typing
+  gem "rbs_rails", require: false
+
   gem "rspec-rails"
 
   gem "factory_bot_rails"
@@ -81,10 +82,12 @@ group :development, :test do
   gem "rubocop-rspec"
 
   gem "rubocop-rake"
+
+  gem "steep"
 end
 
 group :development do
   gem "web-console"
 
-  gem 'chrome_devtools_rails'
+  gem "chrome_devtools_rails"
 end

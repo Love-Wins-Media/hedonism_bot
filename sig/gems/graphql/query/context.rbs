@@ -1,0 +1,3 @@
+class ::GraphQL::Query::Context
+  attr_reader schema: HedonismBotSchema
+end
