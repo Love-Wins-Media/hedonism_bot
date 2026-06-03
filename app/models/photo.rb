@@ -1,14 +1,21 @@
 class Photo < ApplicationRecord
-  STATUSES = %w[pending processing processed failed].freeze
+  STATUSES = %w[pending processing processed failed hidden].freeze
+
+  CONFIGURATIONS = {
+    arw: { mime_type: "image/x-sony-arw", variant: :raw, raw: true },
+    hif: { mime_type: "image/heif", variant: :heif },
+    jpg: { mime_type: "image/jpeg", variant: :jpeg },
+    jpeg: { mime_type: "image/jpeg", variant: :jpeg },
+    png: { mime_type: "image/png", variant: :png },
+  }
 
   belongs_to :tenant
   belongs_to :venue, optional: true
 
   has_many :photo_people, dependent: :destroy
   has_many :people, through: :photo_people
-  has_many :versions, class_name: "PhotoVersion", dependent: :destroy
 
-  has_one_attached :image
+  has_many_attached :images
 
   validates :status, inclusion: { in: STATUSES }
 
@@ -38,5 +45,17 @@ class Photo < ApplicationRecord
 
   def mark_failed!(error)
     update!(status: "failed", processing_error: error.to_s.first(500))
+  end
+
+  def self.configuration_for_extension(extension)
+    CONFIGURATIONS[extension.downcase.to_sym].reverse_merge raw: false
+  end
+
+  def metadata_image
+    images.select { |i| i.blob.content_type == self.content_type }.first
+  end
+
+  def composite_image
+    images.select { |i| i.blob.content_type == 'image/heif' }.first
   end
 end

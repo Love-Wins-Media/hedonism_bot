@@ -1,12 +1,12 @@
 class CreateTenants < ActiveRecord::Migration[8.1]
   def change
-    create_table :tenants, id: :uuid do |t|
+    create_table :tenants, id: :uuid, default: 'gen_random_uuid()' do |t|
+      t.timestamps
+
       t.string :name, null: false
       t.string :subdomain, null: false
-      t.string :api_key, null: false
       t.boolean :active, null: false, default: true
-
-      t.timestamps
+      t.string :api_key, null: false
     end
 
     add_index :tenants, :subdomain, unique: true

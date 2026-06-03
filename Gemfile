@@ -2,10 +2,14 @@ source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.1.3"
-# HAML over ERB
+# HAML over ERB [https://haml.info]
 gem "haml-rails"
-# Use postgresql as the database for Active Record
+# Use postgresql as the database for Active Record [https://github.com/ged/ruby-pg]
 gem "pg", "~> 1.1"
+# The clean, modern PostGIS adapter for Rails [https://github.com/seuros/activerecord-postgis]
+gem "activerecord-postgis"
+# Nearest neighbor search for Rails [https://github.com/ankane/neighbor]
+gem "neighbor"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -16,8 +20,12 @@ gem "jsbundling-rails"
 gem "turbo-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
-# Vite makes running front ends easy
+# Vite makes running front ends easy [https://github.com/ElMassimo/vite_ruby]
 gem "vite_rails"
+# Redis is used to dispatch AI / ML tasks
+gem 'async'
+gem 'async-redis'
+gem "redis"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
@@ -41,6 +49,14 @@ gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.2"
+
+gem "exifr"
+gem "exif"
+gem 'mini_exiftool'
+
+gem "foreman", require: false
+
+gem "aws-sdk-s3", require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
 gem "rack-cors"

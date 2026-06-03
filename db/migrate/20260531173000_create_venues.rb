@@ -1,16 +1,16 @@
 class CreateVenues < ActiveRecord::Migration[8.1]
   def change
-    create_table :venues do |t|
-      t.references :tenant, null: false, foreign_key: true
-      t.string :name, null: false
-      t.string :slug
-      t.text :description
-      t.string :address
-      t.float :latitude
-      t.float :longitude
-      t.jsonb :metadata, null: false, default: {}
-
+    create_table :venues, id: :uuid, default: 'gen_random_uuid()' do |t|
       t.timestamps
+
+      t.references :tenant, null: false, type: :uuid, foreign_key: true
+
+      t.string :slug, null: false
+      t.string :name, null: false
+      t.text :description
+
+      t.string :address
+      t.st_point :coordinates, srid: 4326
     end
 
     add_index :venues, [ :tenant_id, :slug ], unique: true

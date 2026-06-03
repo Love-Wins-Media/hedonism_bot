@@ -1,10 +1,15 @@
-test:
+disk:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
 
 local:
-  service: Disk
-  root: <%= Rails.root.join("storage") %>
+  service: S3
+  bucket: <%= ENV['MINIO_BUCKET'] || 'hedonism-bot' %>
+  endpoint: <%= ENV['MINIO_ENDPOINT'] || 'http://localhost:9000' %>
+  access_key_id: <%= ENV['MINIO_ACCESS_KEY_ID'] || 'minioadmin' %>
+  secret_access_key: <%= ENV['MINIO_SECRET_ACCESS_KEY'] || 'minioadmin' %>
+  region: us-east-1
+  force_path_style: true
 
 # Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
@@ -14,7 +19,7 @@ local:
 #   region: us-east-1
 #   bucket: your_own_bucket-<%= Rails.env %>
 
-# Remember not to checkin your GCS keyfile to a repository
+# Remember not to check in your GCS keyfile to a repository
 # google:
 #   service: GCS
 #   project: your_project

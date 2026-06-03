@@ -1,5 +1,7 @@
+require "digest"
+
 class HomeController < ApplicationController
-  layout 'application'
+  layout "application"
 
   def index
   end

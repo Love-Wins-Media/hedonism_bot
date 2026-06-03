@@ -1,19 +1,38 @@
 class CreatePeople < ActiveRecord::Migration[8.1]
   def change
-    create_table :people do |t|
-      t.references :tenant, null: false, foreign_key: true
-      t.string :name
-      t.string :external_ref
-      # Facial embedding vector stored as a float array (e.g. 128/512-dim).
-      t.float :embedding, array: true, default: []
-      t.integer :embedding_dimensions
-      t.string :embedding_model
-      t.jsonb :metadata, null: false, default: {}
-
+    create_table :people, id: :uuid, default: 'gen_random_uuid()' do |t|
       t.timestamps
+
+      t.references :tenant, type: :uuid, null: false, foreign_key: true
+
+      t.string :first_name
+      t.string :last_name
+      t.string :name
+      t.string :email
+
+      t.string :facebook_id
+      t.string :twitter_id
+      t.string :instagram_id
+
+      t.integer :cluster_number
+
+      t.vector :arc_face_embedding, limit: 512, null: true
     end
 
     add_index :people, [ :tenant_id, :name ]
-    add_index :people, [ :tenant_id, :external_ref ], unique: true, where: "external_ref IS NOT NULL"
+
+    create_table :photo_people, id: :uuid, default: 'gen_random_uuid()' do |t|
+      t.timestamps
+
+      t.references :photo, type: :uuid, null: false, foreign_key: true
+      t.references :person, type: :uuid, null: true, foreign_key: true
+
+      t.float :confidence
+      t.jsonb :bounding_box, null: false, default: {}
+      t.vector :arc_face_embedding, limit: 512
+      t.integer :cluster_number, null: true
+    end
+
+    add_index :photo_people, [ :photo_id, :person_id ], unique: true
   end
 end

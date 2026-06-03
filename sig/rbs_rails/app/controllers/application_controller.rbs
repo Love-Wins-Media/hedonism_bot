@@ -1,3 +1,9 @@
 class ApplicationController < ActionController::Base
   attr_reader logger: ActiveSupport::Logger
+
+  private
+
+  def default_tenant: -> Tenant
+
+  def populate_tenant: -> Tenant
 end
