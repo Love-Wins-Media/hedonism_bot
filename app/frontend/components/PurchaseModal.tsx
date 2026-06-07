@@ -4,20 +4,36 @@ import { Dialog, DialogContent, DialogTitle } from "./Dialog";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { Label } from "./Label";
-import type { Photo } from "./PhotoCard";
 import {Separator} from "./Separator";
 import {ImageWithFallback} from "./ImageWithCallback";
+import {graphql, useLazyLoadQuery} from "react-relay";
+import {PhotoPurchaseQuery} from "./__generated__/PhotoPurchaseQuery.graphql";
 
 interface PurchaseModalProps {
-    photo: Photo | null;
+    photoId: string | null;
     open: boolean;
     onClose: () => void;
     onPurchaseComplete: (photoId: string) => void;
 }
 
+const PHOTO_PURCHASE_QUERY = graphql`
+query PhotoPurchaseQuery($photoId: ID!) {
+    photo(id: $photoId) {
+        id
+        alternateDescription
+        previewUrl
+        takenAt
+    }
+}
+`
+
 type Step = "review" | "payment" | "success";
 
-export function PurchaseModal({ photo, open, onClose, onPurchaseComplete }: PurchaseModalProps) {
+export function PurchaseModal({ photoId, open, onClose, onPurchaseComplete }: PurchaseModalProps) {
+    if (!photoId) return null;
+
+    const data = useLazyLoadQuery<PhotoPurchaseQuery>(PHOTO_PURCHASE_QUERY, {photoId});
+
     const [step, setStep] = useState<Step>("review");
     const [processing, setProcessing] = useState(false);
     const [cardNumber, setCardNumber] = useState("");
@@ -42,7 +58,7 @@ export function PurchaseModal({ photo, open, onClose, onPurchaseComplete }: Purc
         await new Promise((r) => setTimeout(r, 1800));
         setProcessing(false);
         setStep("success");
-        if (photo) onPurchaseComplete(photo.id);
+        if (data.photo) onPurchaseComplete(data.photo.id);
     };
 
     const formatCard = (val: string) =>
@@ -58,7 +74,7 @@ export function PurchaseModal({ photo, open, onClose, onPurchaseComplete }: Purc
         return digits;
     };
 
-    if (!photo) return null;
+
 
     return (
         <Dialog open={open} onOpenChange={handleClose}>
@@ -84,7 +100,7 @@ export function PurchaseModal({ photo, open, onClose, onPurchaseComplete }: Purc
                         {step === "success" ? "Purchase Complete" : step === "payment" ? "Secure Checkout" : "Purchase Photo"}
                     </DialogTitle>
                     <p className="text-xs mt-1" style={{ color: "var(--muted-foreground)", fontFamily: "'DM Mono', monospace" }}>
-                        {photo.event} · {photo.date}
+                       {data.photo!.takenAt}
                     </p>
                 </div>
 
@@ -96,14 +112,14 @@ export function PurchaseModal({ photo, open, onClose, onPurchaseComplete }: Purc
                                 style={{ borderRadius: "var(--radius-sm)", border: "1px solid var(--border)" }}
                             >
                                 <ImageWithFallback
-                                    src={photo.thumbnail}
-                                    alt={photo.title}
+                                    src={data.photo!.previewUrl!}
+                                    alt={data.photo!.alternateDescription}
                                     className="w-full h-full object-cover"
                                 />
                             </div>
                             <div className="flex flex-col justify-center gap-1">
                                 <p style={{ fontFamily: "'Inter', sans-serif", color: "var(--foreground)", fontSize: "0.9375rem" }}>
-                                    {photo.title}
+                                    {data.photo!.alternateDescription}
                                 </p>
                                 <p className="text-xs" style={{ color: "var(--muted-foreground)", fontFamily: "'DM Mono', monospace" }}>
                                     Original high-resolution file
@@ -125,7 +141,7 @@ export function PurchaseModal({ photo, open, onClose, onPurchaseComplete }: Purc
                                     fontSize: "1.375rem",
                                 }}
                             >
-                ${photo.price.toFixed(2)}
+                $1
               </span>
                         </div>
                         <Button
@@ -244,7 +260,7 @@ export function PurchaseModal({ photo, open, onClose, onPurchaseComplete }: Purc
                 Total
               </span>
                             <span style={{ fontFamily: "'Playfair Display', serif", color: "var(--primary)", fontSize: "1.375rem" }}>
-                ${photo.price.toFixed(2)}
+                $1
               </span>
                         </div>
                         <Button
@@ -270,7 +286,7 @@ export function PurchaseModal({ photo, open, onClose, onPurchaseComplete }: Purc
                             ) : (
                                 <>
                                     <Lock className="w-4 h-4 mr-2" />
-                                    Pay ${photo.price.toFixed(2)}
+                                    Pay $1
                                 </>
                             )}
                         </Button>

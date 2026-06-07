@@ -5,12 +5,6 @@ class ApplicationController < ActionController::Base
   private
 
   def populate_tenant
-    @tenant ||= default_tenant if Rails.env.development?
-  end
-
-  def default_tenant
-    Tenant.find_or_create_by(subdomain: "localhost") do |t|
-      t.name = "Local Development Tenant"
-    end
+    @tenant ||= Tenant.default_tenant if Rails.env.development?
   end
 end

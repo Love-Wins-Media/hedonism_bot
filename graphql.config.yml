@@ -1,0 +1,7 @@
+schema: app/graphql/schema.graphql
+documents: 'app/frontend/**/*.{graphql,ts,tsx}'
+extensions:
+  endpoints:
+    local:
+      url: 'http://localhost:5000/graphql'
+      name: 'Local Development'

@@ -2,22 +2,34 @@ import { Download, ShoppingCart, X, ChevronLeft, ChevronRight } from "lucide-rea
 import type { Photo } from "./PhotoCard";
 import {Button} from "./Button";
 import {ImageWithFallback} from "./ImageWithCallback";
+import {graphql, useFragment} from "react-relay";
+import {PhotoViewerFragment$key} from "./__generated__/PhotoViewerFragment.graphql";
+
+const PHOTO_FRAGMENT = graphql`
+fragment PhotoViewerFragment on Photo {
+    id
+    previewUrl
+    alternateDescription
+    isPurchased
+    takenAt
+}
+`;
 
 interface PhotoViewerProps {
-    photo: Photo | null;
-    photos: Photo[];
+    photo: PhotoViewerFragment$key | null;
     open: boolean;
     onClose: () => void;
-    onPurchase: (photo: Photo) => void;
-    onNavigate: (photo: Photo) => void;
+    onPurchase: (photo: PhotoViewerFragment$key) => void;
+    onNavigate: (photo: PhotoViewerFragment$key) => void;
 }
 
-export function PhotoViewer({ photo, photos, open, onClose, onPurchase, onNavigate }: PhotoViewerProps) {
-    if (!open || !photo) return null;
+export function PhotoViewer({ photo, open, onClose, onPurchase }: PhotoViewerProps) {
 
-    const currentIndex = photos.findIndex((p) => p.id === photo.id);
-    const hasPrev = currentIndex > 0;
-    const hasNext = currentIndex < photos.length - 1;
+    if (!open || !photo) return null;
+    let data = useFragment(PHOTO_FRAGMENT, photo!);
+
+    const hasPrev = true;
+    const hasNext = true;
 
     return (
         <div
@@ -41,7 +53,7 @@ export function PhotoViewer({ photo, photos, open, onClose, onPurchase, onNaviga
                     style={{ color: "var(--foreground)" }}
                     onClick={(e) => {
                         e.stopPropagation();
-                        onNavigate(photos[currentIndex - 1]);
+
                     }}
                 >
                     <ChevronLeft className="w-6 h-6" />
@@ -55,7 +67,6 @@ export function PhotoViewer({ photo, photos, open, onClose, onPurchase, onNaviga
                     style={{ color: "var(--foreground)" }}
                     onClick={(e) => {
                         e.stopPropagation();
-                        onNavigate(photos[currentIndex + 1]);
                     }}
                 >
                     <ChevronRight className="w-6 h-6" />
@@ -69,15 +80,15 @@ export function PhotoViewer({ photo, photos, open, onClose, onPurchase, onNaviga
             >
                 <div className="relative w-full max-h-[70vh] flex items-center justify-center">
                     <ImageWithFallback
-                        src={photo.url}
-                        alt={photo.title}
+                        src={data.previewUrl!}
+                        alt={data.alternateDescription}
                         className="max-w-full max-h-[70vh] object-contain"
                         style={{
                             borderRadius: "var(--radius-sm)",
-                            filter: photo.purchased ? "none" : "blur(12px) brightness(0.5)",
+                            filter: data.isPurchased ? "none" : "blur(12px) brightness(0.5)",
                         }}
                     />
-                    {!photo.purchased && (
+                    {!data.isPurchased && (
                         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
                             <p
                                 style={{
@@ -99,7 +110,7 @@ export function PhotoViewer({ photo, photos, open, onClose, onPurchase, onNaviga
                                 onClick={() => onPurchase(photo)}
                             >
                                 <ShoppingCart className="w-4 h-4 mr-2" />
-                                Purchase for ${photo.price}
+                                Purchase for
                             </Button>
                         </div>
                     )}
@@ -112,14 +123,14 @@ export function PhotoViewer({ photo, photos, open, onClose, onPurchase, onNaviga
                 >
                     <div>
                         <p style={{ fontFamily: "'Inter', sans-serif", color: "var(--foreground)", fontSize: "0.9375rem" }}>
-                            {photo.title}
+
                         </p>
                         <p className="text-xs mt-0.5" style={{ color: "var(--muted-foreground)", fontFamily: "'DM Mono', monospace" }}>
-                            {photo.event} · {photo.date} · {currentIndex + 1} of {photos.length}
+
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
-                        {photo.purchased ? (
+                        {data.isPurchased ? (
                             <Button
                                 size="sm"
                                 style={{
@@ -141,10 +152,10 @@ export function PhotoViewer({ photo, photos, open, onClose, onPurchase, onNaviga
                                     fontFamily: "'Inter', sans-serif",
                                     borderRadius: "var(--radius-sm)",
                                 }}
-                                onClick={() => onPurchase(photo)}
+
                             >
                                 <ShoppingCart className="w-4 h-4 mr-1.5" />
-                                ${photo.price}
+
                             </Button>
                         )}
                     </div>

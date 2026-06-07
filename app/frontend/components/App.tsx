@@ -1,238 +1,51 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Calendar, Camera, Filter, Grid3X3, LayoutList, Search, ShoppingBag, X } from "lucide-react";
 import { Badge } from "./Badge";
 import { Input } from "./Input";
 import { ScrollArea } from "./ScrollArea";
-import { PhotoCard, type Photo } from "./PhotoCard";
-import { FaceGroup, type Face } from "./FaceGroup";
+import { PhotoCard } from "./PhotoCard";
+import { FaceGroup } from "./FaceGroup";
 import { PurchaseModal } from "./PurchaseModal";
 import { PhotoViewer } from "./PhotoViewer";
 import {Separator} from "./Separator";
+import { graphql, useLazyLoadQuery } from 'react-relay';
+import {BaseApplicationQuery} from "./__generated__/BaseApplicationQuery.graphql";
+import {PhotoViewerFragment$key} from "./__generated__/PhotoViewerFragment.graphql";
 
-{/* MARKER-MAKE-KIT-INVOKED */}
-
-const EVENTS = [
-    { id: "evt1", name: "Annual Gala 2024", date: "2024-11-15" },
-    { id: "evt2", name: "Tech Summit Spring", date: "2024-05-22" },
-    { id: "evt3", name: "Leadership Retreat", date: "2024-08-08" },
-];
-
-const FACES: Face[] = [
-    {
-        id: "f1",
-        label: "Sarah Chen",
-        thumbnailUrl: "https://images.unsplash.com/photo-1514960919797-5ff58c52e5ba?w=80&h=80&fit=crop&auto=format",
-        photoCount: 12,
-    },
-    {
-        id: "f2",
-        label: "Marcus Webb",
-        thumbnailUrl: "https://images.unsplash.com/photo-1542190891-2093d38760f2?w=80&h=80&fit=crop&auto=format",
-        photoCount: 9,
-    },
-    {
-        id: "f3",
-        label: "Priya Nair",
-        thumbnailUrl: "https://images.unsplash.com/photo-1636990165439-ad91410514e9?w=80&h=80&fit=crop&auto=format",
-        photoCount: 7,
-    },
-    {
-        id: "f4",
-        label: "Thomas Reid",
-        thumbnailUrl: "https://images.unsplash.com/photo-1722078504991-5a4d24db4ab4?w=80&h=80&fit=crop&auto=format",
-        photoCount: 5,
-    },
-];
-
-const PHOTOS: Photo[] = [
-    {
-        id: "p1",
-        url: "https://images.unsplash.com/photo-1531058020387-3be344556be6?w=1200&h=900&fit=crop&auto=format",
-        thumbnail: "https://images.unsplash.com/photo-1531058020387-3be344556be6?w=600&h=450&fit=crop&auto=format",
-        title: "Opening Ceremony",
-        date: "Nov 15, 2024",
-        event: "Annual Gala 2024",
-        faceIds: ["f1", "f2"],
-        price: 24.99,
-        purchased: false,
-        width: 1200,
-        height: 900,
-    },
-    {
-        id: "p2",
-        url: "https://images.unsplash.com/photo-1606744038221-5e0fa1c68fe6?w=1200&h=900&fit=crop&auto=format",
-        thumbnail: "https://images.unsplash.com/photo-1606744038221-5e0fa1c68fe6?w=600&h=450&fit=crop&auto=format",
-        title: "Keynote Address",
-        date: "Nov 15, 2024",
-        event: "Annual Gala 2024",
-        faceIds: ["f2"],
-        price: 19.99,
-        purchased: false,
-        width: 1200,
-        height: 900,
-    },
-    {
-        id: "p3",
-        url: "https://images.unsplash.com/photo-1653821355736-0c2598d0a63e?w=1200&h=900&fit=crop&auto=format",
-        thumbnail: "https://images.unsplash.com/photo-1653821355736-0c2598d0a63e?w=600&h=450&fit=crop&auto=format",
-        title: "Awards Dinner",
-        date: "Nov 15, 2024",
-        event: "Annual Gala 2024",
-        faceIds: ["f1", "f3", "f4"],
-        price: 29.99,
-        purchased: true,
-        width: 1200,
-        height: 900,
-    },
-    {
-        id: "p4",
-        url: "https://images.unsplash.com/photo-1651313948618-31644c7fec18?w=1200&h=900&fit=crop&auto=format",
-        thumbnail: "https://images.unsplash.com/photo-1651313948618-31644c7fec18?w=600&h=450&fit=crop&auto=format",
-        title: "Roundtable Discussion",
-        date: "Nov 15, 2024",
-        event: "Annual Gala 2024",
-        faceIds: ["f1", "f2", "f3"],
-        price: 24.99,
-        purchased: false,
-        width: 1200,
-        height: 900,
-    },
-    {
-        id: "p5",
-        url: "https://images.unsplash.com/photo-1561489404-42f13a2f09a2?w=1200&h=900&fit=crop&auto=format",
-        thumbnail: "https://images.unsplash.com/photo-1561489404-42f13a2f09a2?w=600&h=450&fit=crop&auto=format",
-        title: "Welcome Remarks",
-        date: "May 22, 2024",
-        event: "Tech Summit Spring",
-        faceIds: ["f3"],
-        price: 19.99,
-        purchased: false,
-        width: 1200,
-        height: 900,
-    },
-    {
-        id: "p6",
-        url: "https://images.unsplash.com/photo-1730134322176-862f1cf9bc9f?w=1200&h=900&fit=crop&auto=format",
-        thumbnail: "https://images.unsplash.com/photo-1730134322176-862f1cf9bc9f?w=600&h=450&fit=crop&auto=format",
-        title: "Breakout Sessions",
-        date: "May 22, 2024",
-        event: "Tech Summit Spring",
-        faceIds: ["f2", "f4"],
-        price: 24.99,
-        purchased: false,
-        width: 1200,
-        height: 900,
-    },
-    {
-        id: "p7",
-        url: "https://images.unsplash.com/photo-1772690445981-78b22eacda4b?w=1200&h=900&fit=crop&auto=format",
-        thumbnail: "https://images.unsplash.com/photo-1772690445981-78b22eacda4b?w=600&h=450&fit=crop&auto=format",
-        title: "Panel Discussion",
-        date: "May 22, 2024",
-        event: "Tech Summit Spring",
-        faceIds: ["f1", "f4"],
-        price: 34.99,
-        purchased: false,
-        width: 1200,
-        height: 900,
-    },
-    {
-        id: "p8",
-        url: "https://images.unsplash.com/photo-1722078504991-5a4d24db4ab4?w=1200&h=900&fit=crop&auto=format",
-        thumbnail: "https://images.unsplash.com/photo-1722078504991-5a4d24db4ab4?w=600&h=450&fit=crop&auto=format",
-        title: "Retreat Portraits",
-        date: "Aug 8, 2024",
-        event: "Leadership Retreat",
-        faceIds: ["f4"],
-        price: 19.99,
-        purchased: false,
-        width: 1200,
-        height: 900,
-    },
-    {
-        id: "p9",
-        url: "https://images.unsplash.com/photo-1514960919797-5ff58c52e5ba?w=1200&h=900&fit=crop&auto=format",
-        thumbnail: "https://images.unsplash.com/photo-1514960919797-5ff58c52e5ba?w=600&h=450&fit=crop&auto=format",
-        title: "Team Candid",
-        date: "Aug 8, 2024",
-        event: "Leadership Retreat",
-        faceIds: ["f1"],
-        price: 14.99,
-        purchased: true,
-        width: 1200,
-        height: 900,
-    },
-    {
-        id: "p10",
-        url: "https://images.unsplash.com/photo-1700514077430-3659e38eb5e7?w=1200&h=900&fit=crop&auto=format",
-        thumbnail: "https://images.unsplash.com/photo-1700514077430-3659e38eb5e7?w=600&h=450&fit=crop&auto=format",
-        title: "Venue Overview",
-        date: "Aug 8, 2024",
-        event: "Leadership Retreat",
-        faceIds: [],
-        price: 14.99,
-        purchased: false,
-        width: 1200,
-        height: 900,
-    },
-    {
-        id: "p11",
-        url: "https://images.unsplash.com/photo-1542190891-2093d38760f2?w=1200&h=900&fit=crop&auto=format",
-        thumbnail: "https://images.unsplash.com/photo-1542190891-2093d38760f2?w=600&h=450&fit=crop&auto=format",
-        title: "Executive Portrait",
-        date: "Nov 15, 2024",
-        event: "Annual Gala 2024",
-        faceIds: ["f2"],
-        price: 39.99,
-        purchased: false,
-        width: 1200,
-        height: 900,
-    },
-    {
-        id: "p12",
-        url: "https://images.unsplash.com/photo-1636990165439-ad91410514e9?w=1200&h=900&fit=crop&auto=format",
-        thumbnail: "https://images.unsplash.com/photo-1636990165439-ad91410514e9?w=600&h=450&fit=crop&auto=format",
-        title: "Networking Hour",
-        date: "May 22, 2024",
-        event: "Tech Summit Spring",
-        faceIds: ["f3", "f1"],
-        price: 24.99,
-        purchased: false,
-        width: 1200,
-        height: 900,
-    },
-];
+const BASE_QUERY = graphql`
+query BaseApplicationQuery {
+    folders {
+        nodes {
+            id
+            name
+        }
+    }
+    faces {
+        nodes {
+            id
+        }
+    }
+    photos {
+        nodes {
+            id
+            ...PhotoFragment
+            ...PhotoViewerFragment
+        }
+    }
+}
+`
 
 export default function App() {
-    const [photos, setPhotos] = useState<Photo[]>(PHOTOS);
+    const data = useLazyLoadQuery<BaseApplicationQuery>(BASE_QUERY, {});
     const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
     const [selectedFaceId, setSelectedFaceId] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
-    const [viewerPhoto, setViewerPhoto] = useState<Photo | null>(null);
-    const [purchasePhoto, setPurchasePhoto] = useState<Photo | null>(null);
+    const [purchasePhoto, setPurchasePhoto] = useState<string | null>(null);
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [gridCols, setGridCols] = useState<3 | 4>(3);
+    const [viewerPhoto, setViewerPhoto] = useState<PhotoViewerFragment$key | null>(null);
 
-    const filteredPhotos = useMemo(() => {
-        return photos.filter((p) => {
-            const matchEvent = selectedEventId ? EVENTS.find((e) => e.id === selectedEventId)?.name === p.event : true;
-            const matchFace = selectedFaceId ? p.faceIds.includes(selectedFaceId) : true;
-            const matchSearch = searchQuery
-                ? p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                p.event.toLowerCase().includes(searchQuery.toLowerCase())
-                : true;
-            return matchEvent && matchFace && matchSearch;
-        });
-    }, [photos, selectedEventId, selectedFaceId, searchQuery]);
-
-    const handlePurchaseComplete = (photoId: string) => {
-        setPhotos((prev) => prev.map((p) => (p.id === photoId ? { ...p, purchased: true } : p)));
-    };
-
-    const purchasedCount = photos.filter((p) => p.purchased).length;
-
-    return (
-        <div
+    return <div
             className="min-h-screen flex flex-col"
             style={{ background: "var(--background)", fontFamily: "'Inter', sans-serif" }}
         >
@@ -300,7 +113,7 @@ export default function App() {
                     >
                         <ShoppingBag className="w-3.5 h-3.5" />
                         <span className="text-xs" style={{ fontFamily: "'DM Mono', monospace" }}>
-              {purchasedCount} owned
+              {data?.photos?.nodes?.length} owned
             </span>
                     </div>
                 </div>
@@ -335,23 +148,23 @@ export default function App() {
                                         <Calendar className="w-3.5 h-3.5 shrink-0" />
                                         <span className="text-sm">All events</span>
                                     </button>
-                                    {EVENTS.map((event) => (
+                                    {data?.folders?.nodes?.map((event) => (
                                         <button
-                                            key={event.id}
+                                            key={event?.id}
                                             className="flex flex-col px-2 py-1.5 rounded text-left transition-colors"
                                             style={{
-                                                background: selectedEventId === event.id ? "rgba(201,169,110,0.12)" : "transparent",
-                                                color: selectedEventId === event.id ? "var(--primary)" : "var(--foreground)",
+                                                background: selectedEventId === event?.id ? "rgba(201,169,110,0.12)" : "transparent",
+                                                color: selectedEventId === event?.id ? "var(--primary)" : "var(--foreground)",
                                                 borderRadius: "var(--radius-sm)",
                                             }}
-                                            onClick={() => setSelectedEventId(event.id)}
+                                            onClick={() => setSelectedEventId(event!.id!)}
                                         >
-                                            <span className="text-sm truncate">{event.name}</span>
+                                            <span className="text-sm truncate">{event?.name}</span>
                                             <span
                                                 className="text-xs"
                                                 style={{ color: "var(--muted-foreground)", fontFamily: "'DM Mono', monospace" }}
                                             >
-                        {event.date}
+                        {event?.name}
                       </span>
                                         </button>
                                     ))}
@@ -360,11 +173,7 @@ export default function App() {
 
                             <Separator className="mb-4" style={{ background: "var(--border)" }} />
 
-                            <FaceGroup
-                                faces={FACES}
-                                selectedFaceId={selectedFaceId}
-                                onSelect={setSelectedFaceId}
-                            />
+                            <FaceGroup selectedFaceId={selectedFaceId} onSelect={setSelectedFaceId} />
                         </ScrollArea>
                     </aside>
                 )}
@@ -386,7 +195,7 @@ export default function App() {
                                 <Filter className="w-3.5 h-3.5" />
                             </button>
                             <span className="text-xs" style={{ color: "var(--muted-foreground)", fontFamily: "'DM Mono', monospace" }}>
-                {filteredPhotos.length} photo{filteredPhotos.length !== 1 ? "s" : ""}
+
               </span>
                             {selectedEventId && (
                                 <Badge
@@ -399,7 +208,7 @@ export default function App() {
                                     }}
                                     onClick={() => setSelectedEventId(null)}
                                 >
-                                    {EVENTS.find((e) => e.id === selectedEventId)?.name}
+
                                     <X className="w-3 h-3" />
                                 </Badge>
                             )}
@@ -414,7 +223,7 @@ export default function App() {
                                     }}
                                     onClick={() => setSelectedFaceId(null)}
                                 >
-                                    {FACES.find((f) => f.id === selectedFaceId)?.label}
+
                                     <X className="w-3 h-3" />
                                 </Badge>
                             )}
@@ -449,7 +258,7 @@ export default function App() {
 
                     {/* Photo grid */}
                     <ScrollArea className="flex-1">
-                        {filteredPhotos.length === 0 ? (
+                        {data?.photos?.nodes?.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-64 gap-3">
                                 <Camera className="w-8 h-8" style={{ color: "var(--muted-foreground)" }} />
                                 <p
@@ -478,11 +287,9 @@ export default function App() {
                                 className="p-4 grid gap-3"
                                 style={{ gridTemplateColumns: `repeat(${gridCols}, minmax(0, 1fr))` }}
                             >
-                                {filteredPhotos.map((photo) => (
-                                    <PhotoCard
-                                        key={photo.id}
-                                        photo={photo}
-                                        onSelect={(p) => setViewerPhoto(p)}
+                                {data?.photos?.nodes?.map((photo) => (
+                                    <PhotoCard key={photo!.id}
+                                        photo={photo!}
                                         onPurchase={(p) => setPurchasePhoto(p)}
                                     />
                                 ))}
@@ -494,22 +301,20 @@ export default function App() {
 
             <PhotoViewer
                 photo={viewerPhoto}
-                photos={filteredPhotos}
                 open={viewerPhoto !== null}
                 onClose={() => setViewerPhoto(null)}
                 onPurchase={(p) => {
                     setViewerPhoto(null);
-                    setPurchasePhoto(p);
                 }}
                 onNavigate={(p) => setViewerPhoto(p)}
             />
 
             <PurchaseModal
-                photo={purchasePhoto}
+                photoId={purchasePhoto}
                 open={purchasePhoto !== null}
                 onClose={() => setPurchasePhoto(null)}
-                onPurchaseComplete={handlePurchaseComplete}
+                onPurchaseComplete={() => {}}
             />
-        </div>
-    );
+        </div>;
+
 }

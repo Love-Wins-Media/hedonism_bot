@@ -71,4 +71,8 @@ class Photo < ApplicationRecord
   def composite_image
     images.select { |i| i.blob.content_type == "image/heif" }.first
   end
+
+  def preview_url
+    images.select { |i| i.blob.content_type == "image/heif" }.first&.url
+  end
 end

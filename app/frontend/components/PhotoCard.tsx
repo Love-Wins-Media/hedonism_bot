@@ -3,6 +3,17 @@ import { Download, ShoppingCart, ZoomIn } from "lucide-react";
 
 import {Badge} from "./Badge";
 import {ImageWithFallback} from "./ImageWithCallback";
+import {graphql, useFragment} from "react-relay";
+import {PhotoFragment$key} from "./__generated__/PhotoFragment.graphql";
+
+const PHOTO_FRAGMENT = graphql`
+fragment PhotoFragment on Photo {
+    id
+    isPurchased
+    previewUrl
+    takenAt
+}
+`
 
 export interface Photo {
     id: string;
@@ -19,12 +30,13 @@ export interface Photo {
 }
 
 interface PhotoCardProps {
-    photo: Photo;
-    onSelect: (photo: Photo) => void;
-    onPurchase: (photo: Photo) => void;
+    photo: PhotoFragment$key;
+    onSelect?: (photo: string) => void;
+    onPurchase?: (photo: string) => void;
 }
 
 export function PhotoCard({ photo, onSelect, onPurchase }: PhotoCardProps) {
+    let data = useFragment(PHOTO_FRAGMENT, photo);
     const [hovered, setHovered] = useState(false);
 
     return (
@@ -33,12 +45,10 @@ export function PhotoCard({ photo, onSelect, onPurchase }: PhotoCardProps) {
             style={{ borderRadius: "var(--radius)" }}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            onClick={() => onSelect(photo)}
         >
-            <div className="relative aspect-[4/3] overflow-hidden">
+            <div className="relative aspect-4/3 overflow-hidden">
                 <ImageWithFallback
-                    src={photo.thumbnail}
-                    alt={photo.title}
+                    src={data.previewUrl!}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 {/* Gradient overlay */}
@@ -51,7 +61,7 @@ export function PhotoCard({ photo, onSelect, onPurchase }: PhotoCardProps) {
                     }}
                 />
                 {/* Purchased badge */}
-                {photo.purchased && (
+                {data.isPurchased && (
                     <div className="absolute top-2 left-2">
                         <Badge
                             className="text-xs"
@@ -76,10 +86,10 @@ export function PhotoCard({ photo, onSelect, onPurchase }: PhotoCardProps) {
                             className="text-xs mb-0.5 truncate"
                             style={{ color: "var(--muted-foreground)", fontFamily: "'DM Mono', monospace" }}
                         >
-                            {photo.event}
+                            "Event"
                         </p>
                         <p style={{ color: "var(--foreground)", fontFamily: "'Inter', sans-serif", fontSize: "0.8125rem" }}>
-                            {photo.title}
+                            Title
                         </p>
                     </div>
                     <div className="flex gap-1.5 ml-2 shrink-0">
@@ -88,21 +98,19 @@ export function PhotoCard({ photo, onSelect, onPurchase }: PhotoCardProps) {
                             style={{ background: "rgba(15,15,15,0.8)", color: "var(--foreground)" }}
                             onClick={(e) => {
                                 e.stopPropagation();
-                                onSelect(photo);
                             }}
                             title="View full size"
                         >
                             <ZoomIn className="w-3.5 h-3.5" />
                         </button>
-                        {!photo.purchased && (
+                        {!data.isPurchased && (
                             <button
                                 className="p-1.5 rounded transition-colors"
                                 style={{ background: "var(--primary)", color: "var(--primary-foreground)" }}
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    onPurchase(photo);
                                 }}
-                                title={`Purchase — $${photo.price}`}
+                                title={`Purchase — $1`}
                             >
                                 <ShoppingCart className="w-3.5 h-3.5" />
                             </button>
@@ -116,15 +124,15 @@ export function PhotoCard({ photo, onSelect, onPurchase }: PhotoCardProps) {
             className="text-xs"
             style={{ color: "var(--muted-foreground)", fontFamily: "'DM Mono', monospace" }}
         >
-          {photo.date}
+          {data.takenAt}
         </span>
-                {photo.purchased ? (
+                {data.isPurchased ? (
                     <span className="text-xs" style={{ color: "var(--primary)", fontFamily: "'Inter', sans-serif" }}>
             Download available
           </span>
                 ) : (
                     <span className="text-xs" style={{ color: "var(--muted-foreground)", fontFamily: "'Inter', sans-serif" }}>
-            ${photo.price}
+            $1
           </span>
                 )}
             </div>

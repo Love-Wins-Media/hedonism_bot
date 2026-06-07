@@ -1,0 +1,434 @@
+type Face implements Node {
+  """
+  ID of the object.
+  """
+  id: ID!
+  label: String!
+  photoCount: Int!
+  photos(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): PhotoConnection!
+  thumbnailUrl: String!
+}
+
+"""
+The connection type for Face.
+"""
+type FaceConnection {
+  """
+  A list of edges.
+  """
+  edges: [FaceEdge]
+
+  """
+  A list of nodes.
+  """
+  nodes: [Face]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
+
+"""
+An edge in a connection.
+"""
+type FaceEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Face
+}
+
+type Folder implements Node {
+  """
+  Faces in the folder
+  """
+  faces(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): FaceConnection!
+
+  """
+  ID of the object.
+  """
+  id: ID!
+  name: String!
+
+  """
+  Photos in the folder
+  """
+  photos(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): PhotoConnection!
+}
+
+"""
+The connection type for Folder.
+"""
+type FolderConnection {
+  """
+  A list of edges.
+  """
+  edges: [FolderEdge]
+
+  """
+  A list of nodes.
+  """
+  nodes: [Folder]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
+
+"""
+An edge in a connection.
+"""
+type FolderEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Folder
+}
+
+"""
+An ISO 8601-encoded datetime
+"""
+scalar ISO8601DateTime @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")
+
+type Mutation {
+  """
+  An example field added by the generator
+  """
+  testField: String!
+}
+
+"""
+An object with an ID.
+"""
+interface Node {
+  """
+  ID of the object.
+  """
+  id: ID!
+}
+
+"""
+Information about pagination in a connection.
+"""
+type PageInfo {
+  """
+  When paginating forwards, the cursor to continue.
+  """
+  endCursor: String
+
+  """
+  When paginating forwards, are there more items?
+  """
+  hasNextPage: Boolean!
+
+  """
+  When paginating backwards, are there more items?
+  """
+  hasPreviousPage: Boolean!
+
+  """
+  When paginating backwards, the cursor to continue.
+  """
+  startCursor: String
+}
+
+type Photo implements Node {
+  """
+  Description of the photo for the visually impaired
+  """
+  alternateDescription: String!
+  byteSize: Int
+
+  """
+  MIME type of the photo
+  """
+  contentType: String!
+
+  """
+  Faces in the photo
+  """
+  faces(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): FaceConnection!
+
+  """
+  Filename of the photo
+  """
+  filename: String!
+
+  """
+  Folder containing the photo
+  """
+  folder: Folder!
+
+  """
+  ID of the object.
+  """
+  id: ID!
+
+  """
+  Whether the photo has been purchased
+  """
+  isPurchased: Boolean!
+  name: String!
+
+  """
+  URL to a preview image of the photo
+  """
+  previewUrl: String
+
+  """
+  Date and time the photo was taken
+  """
+  takenAt: ISO8601DateTime!
+}
+
+"""
+The connection type for Photo.
+"""
+type PhotoConnection {
+  """
+  A list of edges.
+  """
+  edges: [PhotoEdge]
+
+  """
+  A list of nodes.
+  """
+  nodes: [Photo]
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
+
+"""
+An edge in a connection.
+"""
+type PhotoEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Photo
+}
+
+type Query {
+  """
+  All faces for a particular tenant
+  """
+  faces(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): FaceConnection!
+
+  """
+  All groupings for a particular tenant
+  """
+  folders(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): FolderConnection!
+
+  """
+  Fetches an object given its ID.
+  """
+  node(
+    """
+    ID of the object.
+    """
+    id: ID!
+  ): Node
+
+  """
+  Fetches a list of objects given a list of IDs.
+  """
+  nodes(
+    """
+    IDs of the objects.
+    """
+    ids: [ID!]!
+  ): [Node]!
+  photo(
+    """
+    ID of the photo
+    """
+    id: ID!
+  ): Photo
+
+  """
+  All photos for a particular tenant
+  """
+  photos(
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+  ): PhotoConnection!
+
+  """
+  The current tenant for the request
+  """
+  tenant: Tenant!
+}
+
+type Tenant implements Node {
+  """
+  The unique identifier for the tenant
+  """
+  id: ID!
+
+  """
+  The name of the tenant
+  """
+  name: String!
+
+  """
+  The subdomain of the tenant
+  """
+  subdomain: String!
+}

@@ -12,6 +12,16 @@ class Tenant < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
+  def folders
+    self.photos.group_by(&:folder_date).map { |folder, photos| Folder.new(folder, photos) }
+  end
+
+  def self.default_tenant
+    Tenant.find_or_create_by(subdomain: "localhost") do |t|
+      t.name = "Local Development Tenant"
+    end
+  end
+
   private
 
   def ensure_api_key

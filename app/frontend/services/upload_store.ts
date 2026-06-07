@@ -3,6 +3,6 @@ import uploadPhotoReducer from '../features/photo_upload';
 
 export default configureStore({
     reducer: {
-        uploadPhoto: uploadPhotoReducer
+        uploadPhoto: uploadPhotoReducer.reducer
     }
 });
