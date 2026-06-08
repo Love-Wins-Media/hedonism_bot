@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Flex, Inset, Progress, Text} from "@radix-ui/themes";
+import {Box, Button, Card, Flex, Inset, Progress, Text} from "@radix-ui/themes";
 import {X} from 'lucide-react';
 
 export interface CardProps {
@@ -19,7 +19,7 @@ export const PhotoUpload: React.FC<CardProps> = ({
                                                      progress,
                                                      onRemove
                                                  }) => {
-    return <Card>
+    return <Box width="64px" height="64px">
         <Flex direction="column" gap="2">
             <Flex justify="between" align="center">
                 <Text as="p" size="3" truncate>{title}</Text>
@@ -49,5 +49,5 @@ export const PhotoUpload: React.FC<CardProps> = ({
                 {description}
             </Text>
         </Flex>
-    </Card>
+    </Box>
 }

@@ -1,9 +1,9 @@
-import { User } from "lucide-react";
+import {User} from "lucide-react";
 import Face from './Face'
 
 import {useState} from "react";
 import {graphql, useFragment} from "react-relay";
-import {FaceFragment_faces$data, FaceFragment_faces$key} from "./__generated__/FaceFragment_faces.graphql";
+import {FaceFragment_faces$key} from "./__generated__/FaceFragment_faces.graphql";
 
 const FACES_FRAGMENT = graphql`
     fragment FaceFragment_faces on FaceConnection {
@@ -20,14 +20,14 @@ interface FaceGroupProps {
     onSelect: (faceId: string | null) => void;
 }
 
-export function FaceGroup({ faces, selectedFaceId, onSelect }: FaceGroupProps) {
+export function FaceGroup({faces, selectedFaceId, onSelect}: FaceGroupProps) {
     let [faceId, setFaceId] = useState<string | null>(selectedFaceId);
     const data = useFragment(FACES_FRAGMENT, faces);
     return data ? (
         <div className="flex flex-col gap-2">
             <p
                 className="text-xs uppercase tracking-widest mb-1"
-                style={{ color: "var(--muted-foreground)", fontFamily: "'DM Mono', monospace" }}
+                style={{color: "var(--muted-foreground)", fontFamily: "'DM Mono', monospace"}}
             >
                 People
             </p>
@@ -42,20 +42,24 @@ export function FaceGroup({ faces, selectedFaceId, onSelect }: FaceGroupProps) {
                 onClick={() => {
                     setFaceId(null);
                     onSelect?.(null);
-                    }
+                }
                 }>
-                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: "var(--muted)" }}>
-                    <User className="w-4 h-4" style={{ color: "var(--muted-foreground)" }} />
+                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+                     style={{background: "var(--muted)"}}>
+                    <User className="w-4 h-4" style={{color: "var(--muted-foreground)"}}/>
                 </div>
                 <div className="min-w-0">
-                    <p className="text-sm truncate" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <p className="text-sm truncate" style={{fontFamily: "'Inter', sans-serif"}}>
                         All Photos
                     </p>
                 </div>
             </button>
 
             {data?.nodes?.map((face) => (
-                <Face key={face!.id} face={face!} selected={faceId === face!.id} onSelect={() => { setFaceId(face!.id); onSelect?.(face!.id) }} />
+                <Face key={face!.id} face={face!} selected={faceId === face!.id} onSelect={() => {
+                    setFaceId(face!.id);
+                    onSelect?.(face!.id)
+                }}/>
             ))}
         </div>
     ) : null;

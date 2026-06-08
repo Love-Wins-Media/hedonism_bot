@@ -3,7 +3,7 @@ import Dropzone, {DropzoneState, FileRejection} from 'react-dropzone'
 
 import {PhotoUpload} from './PhotoUpload';
 import {Button} from "./Button";
-import {Container, Grid} from "@radix-ui/themes";
+import {Box, Container, Flex, Grid} from "@radix-ui/themes";
 import {Row} from "@radix-ui/themes/components/table";
 
 interface UploadPhoto {
@@ -143,19 +143,21 @@ export class MultiUploader extends Component<MultiUploaderProps, UploadState> {
             </div>
         }
 
-        return <Container className="py-4">
-            <Grid columns={{ initial: "1", sm: "2", md: "3", lg: "4" }} gap="4">
+        return <Container>
+            <Flex gap="3">
                 {Object.entries(this.state.acceptedFiles).map(([name, file]) => (
-                    <PhotoUpload
-                        key={name}
-                        title={file.title}
-                        rawPhoto={file.rawPhoto}
-                        processedPhotos={file.processedPhotos}
-                        progress={this.state.uploadProgress[name]}
-                        onRemove={this.state.uploading[name] ? undefined : () => this.removeFile(name)}
-                    />
+                    <Box width="64px" height="64px">
+                        <PhotoUpload
+                            key={name}
+                            title={file.title}
+                            rawPhoto={file.rawPhoto}
+                            processedPhotos={file.processedPhotos}
+                            progress={this.state.uploadProgress[name]}
+                            onRemove={this.state.uploading[name] ? undefined : () => this.removeFile(name)}
+                        />
+                    </Box>
                 ))}
-            </Grid>
+            </Flex>
 
             <Row>
                 <ul>
