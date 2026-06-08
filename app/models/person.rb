@@ -19,7 +19,7 @@ class Person < ApplicationRecord
 
     people = {}
 
-    photo_embeddings = PhotoPerson.where("confidence > ?", 0.9).to_h { |p| [p, p.arc_face_embedding] }
+    photo_embeddings = PhotoPerson.where("confidence > ?", 0.9).to_h { |p| [ p, p.arc_face_embedding ] }
     clusters = hdbscan.fit_predict(photo_embeddings.values)
     photo_embeddings.keys.zip(clusters).to_h.each do |photo_person, cluster|
       next if cluster == -1

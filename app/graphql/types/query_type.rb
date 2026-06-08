@@ -23,10 +23,10 @@ module Types
 
     def faces(folder_id: nil)
       if folder_id
-        folder = Folder.new(folder_id, Photo.where("folder_date = ?", folder_id).all)
-        folder.photos.map { |photo| photo.people }.flatten.uniq
+        photos = Photo.where("folder_date = ?", folder_id)
+        photos.map { |photo| photo.people }.flatten.uniq
       else
-        tenant.people
+        PhotoPerson.joins(:face_image_blob).includes(:person).map { |photo_person| photo_person.person }.uniq
       end
     end
 
@@ -42,9 +42,9 @@ module Types
 
     def photos(face_id: nil, folder_id: nil)
       if face_id
-        photos = HedonismBotSchema.object_from_id(face_id, context).photos
+        photos = HedonismBotSchema.object_from_id(face_id, context).photos.joins(:images_blobs)
       else
-        photos = tenant.photos.order(:folder_date)
+        photos = tenant.photos.order(:folder_date).joins(:images_blobs)
       end
 
       photos = photos.where(folder_date: folder_id) if folder_id

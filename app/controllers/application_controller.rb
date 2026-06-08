@@ -1,13 +1,12 @@
 class ApplicationController < ActionController::Base
-  before_action :populate_tenant
+  attr_reader :tenant
 
   private
 
-  def populate_tenant
-    @tenant ||= Tenant.default_tenant if Rails.env.development?
+  def tenant
+    subdomain = request.hostname&.split(".")&.first
+    @tenant ||= Tenant.find_by(subdomain: subdomain) || Tenant.default_tenant if Rails.env.development?
 
-    raise unless @tenant
-
-    @tenant
+    @tenant or raise "No tenant found (subdomain: #{subdomain})"
   end
 end

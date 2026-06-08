@@ -1,7 +1,7 @@
 class Photo < ApplicationRecord
   include PgSearch::Model
 
-  pg_search_scope :caption_search, against: [:caption], using: { tsearch: { prefix: true } }
+  pg_search_scope :caption_search, against: [ :caption ], using: { tsearch: { prefix: true } }
 
   STATUSES = %w[pending processing processed failed hidden].freeze
 
@@ -41,6 +41,7 @@ class Photo < ApplicationRecord
 
   scope :for_date, ->(date) { where(folder_date: date) }
   scope :processed, -> { where(status: "processed") }
+  scope :with_face, -> { joins(:face_image_blob) }
 
   # Group photos by the date they were taken (folder_date), newest day first.
   # Returns an ordered hash of { Date => [Photo, ...] }.
@@ -92,7 +93,7 @@ class Photo < ApplicationRecord
       if APPLE_FORMATS.include?(mime_type)
         mime_formats = APPLE_FORMATS
       else
-        mime_formats = [mime_type]
+        mime_formats = [ mime_type ]
       end
       others = images.filter { |image| mime_formats.include? image.blob.content_type }
       others.each { |image| image.purge_later }
