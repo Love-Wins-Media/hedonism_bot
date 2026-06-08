@@ -144,7 +144,7 @@ export class MultiUploader extends Component<MultiUploaderProps, UploadState> {
         }
 
         return <Container className="py-4">
-            <Grid columns="4" gap="4">
+            <Grid columns={{ initial: "1", sm: "2", md: "3", lg: "4" }} gap="4">
                 {Object.entries(this.state.acceptedFiles).map(([name, file]) => (
                     <PhotoUpload
                         key={name}

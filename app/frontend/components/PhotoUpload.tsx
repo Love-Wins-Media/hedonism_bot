@@ -19,33 +19,35 @@ export const PhotoUpload: React.FC<CardProps> = ({
                                                      progress,
                                                      onRemove
                                                  }) => {
-    return <Card style={{width: '18rem'}}>
-        <Flex justify="between" align="center" mb="2">
-            <Text as="p" size="3" truncate>{title}</Text>
-            {onRemove && (
-                <Button variant="ghost" color="red" onClick={onRemove}>
-                    <X size={16}/>
-                </Button>
+    return <Card>
+        <Flex direction="column" gap="2">
+            <Flex justify="between" align="center">
+                <Text as="p" size="3" truncate>{title}</Text>
+                {onRemove && (
+                    <Button variant="ghost" color="red" onClick={onRemove} size="1">
+                        <X size={16}/>
+                    </Button>
+                )}
+            </Flex>
+            <Inset clip="padding-box" side="top" pb="current">
+                <img
+                    src={URL.createObjectURL(processedPhotos[0] || rawPhoto)}
+                    alt={title}
+                    style={{
+                        display: "block",
+                        objectFit: "cover",
+                        width: "100%",
+                        height: 140,
+                        backgroundColor: "var(--gray-5)",
+                    }}
+                />
+            </Inset>
+            {progress !== undefined && (
+                <Progress value={progress}/>
             )}
+            <Text as="p" size="1" color="gray">
+                {description}
+            </Text>
         </Flex>
-        <Inset clip="padding-box" side="top" pb="current">
-            <img
-                src={URL.createObjectURL(processedPhotos[0] || rawPhoto)}
-                alt={title}
-                style={{
-                    display: "block",
-                    objectFit: "cover",
-                    width: "100%",
-                    height: 140,
-                    backgroundColor: "var(--gray-5)",
-                }}
-            />
-        </Inset>
-        {progress !== undefined && (
-            <Progress value={progress}/>
-        )}
-        <Text as="p" size="1" color="gray">
-            {description}
-        </Text>
     </Card>
 }
