@@ -92,6 +92,17 @@
     <orderEntry type="library" scope="PROVIDED" name="crack (v1.0.1, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="csv (v3.3.5, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber (v10.2.0, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-ci-environment (v11.0.0, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-core (v16.2.0, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-cucumber-expressions (v19.0.1, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-gherkin (v39.1.0, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-html-formatter (v22.3.0, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-messages (v32.3.1, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="TEST" name="cucumber-rails (v4.0.1, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-tag-expressions (v8.1.0, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="TEST" name="database_cleaner-active_record (v2.2.2, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="database_cleaner-core (v2.1.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="date (v3.5.1, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="debug (v1.11.1, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.6.2, rbenv: 4.0.5) [gem]" level="application" />
@@ -141,12 +152,16 @@
     <orderEntry type="library" scope="PROVIDED" name="mail (v2.9.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="marcel (v1.2.1, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="matrix (v0.4.3, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="memoist3 (v1.0.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="metrics (v0.15.0, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mime-types (v3.7.0, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mime-types-data (v3.2026.0414, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_exiftool (v2.14.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_magick (v5.3.1, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.1.5, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="minitest (v6.0.6, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="msgpack (v1.8.1, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="multi_test (v1.1.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mutex_m (v0.3.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="neighbor (v1.2.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-imap (v0.6.4, rbenv: 4.0.5) [gem]" level="application" />
@@ -163,6 +178,7 @@
     <orderEntry type="library" scope="PROVIDED" name="parser (v3.3.11.1, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pg (v1.6.3, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pg_search (v2.3.7, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="TEST" name="playwright-ruby-client (v1.60.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pp (v0.6.3, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="prettyprint (v0.2.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="prism (v1.9.0, rbenv: 4.0.5) [gem]" level="application" />
@@ -227,6 +243,7 @@
     <orderEntry type="library" scope="PROVIDED" name="stimulus-rails (v1.3.4, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stringio (v3.2.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="strscan (v3.1.8, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sys-uname (v1.5.1, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="temple (v0.10.4, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="terminal-table (v4.0.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v1.5.0, rbenv: 4.0.5) [gem]" level="application" />
