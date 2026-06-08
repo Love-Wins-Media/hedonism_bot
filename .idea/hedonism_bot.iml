@@ -180,6 +180,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rack-test (v2.2.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rackup (v2.3.1, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails (v8.1.3, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="TEST" name="rails-controller-testing (v1.0.5, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-dom-testing (v2.3.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-html-sanitizer (v1.7.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="railties (v8.1.3, rbenv: 4.0.5) [gem]" level="application" />
