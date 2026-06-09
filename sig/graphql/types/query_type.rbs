@@ -1,0 +1,17 @@
+module Types
+  class QueryType < Types::BaseObject
+    include GraphQL::Types::Relay::HasNodeField
+
+    include GraphQL::Types::Relay::HasNodesField
+
+    def tenant: () -> untyped
+
+    def faces: (?folder_id: untyped?) -> untyped
+
+    def folders: (?face_id: untyped?) -> untyped
+
+    def photos: (?face_id: untyped?, ?folder_id: untyped?) -> untyped
+
+    def photo: (id: untyped) -> untyped
+  end
+end

@@ -1,0 +1,7 @@
+module Types
+  class FaceType < Types::BaseObject
+    def photo_count: () -> untyped
+
+    def thumbnail_url: () -> untyped
+  end
+end

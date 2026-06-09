@@ -1,0 +1,9 @@
+module ClusterKit
+  module Clustering
+    class HDBSCAN
+      type metric = "euclidean"
+      def initialize: (min_samples: Integer, min_cluster_size: Integer, metric: metric) -> void
+      def fit_predict: (array[array[float]]) -> untyped
+    end
+  end
+end

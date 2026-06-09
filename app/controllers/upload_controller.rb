@@ -32,7 +32,7 @@ class UploadController < ApplicationController
     image_hash = Digest::SHA256.hexdigest(raw_image.read)
     photo = Photo.find_or_initialize_by(image_hash: image_hash, tenant: tenant)
     photo.byte_size = raw_image.size
-    photo.original_filename = filename
+    photo.original_filename = filename.to_s
     photo.raw_image.attach(raw_image) unless photo.raw_image.attached?
     photo.image_hash = image_hash
     photo.content_type = configuration[:mime_type]
@@ -40,8 +40,9 @@ class UploadController < ApplicationController
     photo.images.purge
 
     params[:processed_image].each do |processed_image|
-      processed_configuration = Photo.configuration_for_extension File.extname(processed_image.original_filename).lstrip(".")
-      photo.attach_format processed_configuration[:mime_type], processed_image, filename: processed_image.original_filename
+      processed_configuration = Photo.configuration_for_extension(File.extname(processed_image.original_filename).lstrip("."))
+      mime = processed_configuration[:mime_type]
+      photo.attach_format mime, processed_image, filename: processed_image.original_filename
     end
 
     photo.save!

@@ -47,7 +47,7 @@ class Photo < ApplicationRecord
   # Returns an ordered hash of { Date => [Photo, ...] }.
   def self.grouped_by_folder_date
     order(folder_date: :desc, created_at: :desc)
-      .group_by { |p| p.folder_date || p.created_at.to_date }
+      .group_by { |p| p.folder_date.to_s || p.created_at.to_date.to_s }
   end
 
   def mark_processing!
@@ -65,11 +65,15 @@ class Photo < ApplicationRecord
   end
 
   def mark_failed!(error)
-    update!(status: "failed", processing_error: error.to_s.first(500))
+    update!(status: "failed", processing_error: error.to_str.first(500))
   end
 
   def self.configuration_for_extension(extension)
-    CONFIGURATIONS[extension.downcase.to_sym].reverse_merge raw: false
+    config = CONFIGURATIONS[extension.downcase.to_sym]
+
+    config.reverse_merge raw: false
+
+    config
   end
 
   def metadata_image
@@ -77,11 +81,11 @@ class Photo < ApplicationRecord
   end
 
   def composite_image
-    images.first { |i| COMPOSITE_PREFERENCE_LIST.include? i.blob.content_type }
+    images.filter { |i| COMPOSITE_PREFERENCE_LIST.include? i.blob.content_type }.first
   end
 
   def preview_url
-    images.select { |i| i.blob.content_type == "image/jpeg" }.first&.url
+    images.filter { |i| i.blob.content_type == "image/jpeg" }.first&.url
   end
 
   def has_format?(mime_type)

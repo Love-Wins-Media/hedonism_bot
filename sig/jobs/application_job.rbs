@@ -1,0 +1,4 @@
+class ::ApplicationJob < ::ActiveJob::Base
+  def logger: -> Logger
+  def self.queue_as: (Symbol) -> void
+end

@@ -1,6 +1,0 @@
-module Types
-  class QueryType < BaseObject
-
-    def node: (id: top) -> BaseObject
-  end
-end

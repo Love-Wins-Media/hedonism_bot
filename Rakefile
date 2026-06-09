@@ -12,7 +12,7 @@ RuboCop::RakeTask.new
 
 Steep::RakeTask.new do |t|
   t.check.severity_level = :error
-  t.watch.verbose
+  t.watch
 end
 
 GraphQL::RakeTask.new(

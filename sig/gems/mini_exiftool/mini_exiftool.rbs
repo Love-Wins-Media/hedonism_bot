@@ -1,0 +1,3 @@
+class MiniExiftool
+  def initialize: (String) -> void
+end

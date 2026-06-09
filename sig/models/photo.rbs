@@ -1,0 +1,23 @@
+class ::Photo < ::ApplicationRecord
+  type config = { mime_type: String, variant: interned, ?raw: bool }
+
+  STATUSES: Array[string]
+  APPLE_FORMATS: Array[string]
+  COMPOSITE_PREFERENCE_LIST: Array[string]
+  CONFIGURATIONS: Hash[Symbol, config]
+  RAW_FORMATS: Hash[Symbol, {mime_type: string}]
+  PROCESSED_FORMATS: Hash[Symbol, config]
+
+  def self.grouped_by_folder_date: () -> hash[string, array[Photo]]
+  def self.configuration_for_extension: (String) -> config
+
+  def has_format?: (string) -> bool
+  def update_faces: (Array[Types::FaceDataInputType]) -> void
+  def composite_image: -> ActiveStorage::Attachment
+  def metadata_image: -> ActiveStorage::Attachment
+  def preview_url: -> string?
+  def attach_format: (string, IO, filename: string) -> void
+  def mark_processing!: -> void
+  def mark_processed!: (faces_detected: array[float], face_data: untyped, folder_date: DateTime?, taken_at: DateTime?) -> void
+  def mark_failed!: (string) -> void
+end

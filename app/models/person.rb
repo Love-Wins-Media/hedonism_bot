@@ -4,7 +4,7 @@ class Person < ApplicationRecord
   has_many :photos, through: :photo_people
 
   scope :for_tenant, ->(tenant) { where(tenant: tenant) }
-  scope :with_embedding, -> { where.not(embedding: []) }
+  scope :with_embedding, -> { where.not(embedding: nil)  }
 
   has_neighbors :arc_face_embedding, dimensions: 512, normalize: true
 
@@ -17,7 +17,7 @@ class Person < ApplicationRecord
       metric: "euclidean" # Distance metric
     )
 
-    people = {}
+    people = {} #: Hash[String, Person]
 
     photo_embeddings = PhotoPerson.where("confidence > ?", 0.9).to_h { |p| [ p, p.arc_face_embedding ] }
     clusters = hdbscan.fit_predict(photo_embeddings.values)

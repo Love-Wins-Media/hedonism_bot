@@ -1,0 +1,13 @@
+class HedonismBotSchema < GraphQL::Schema
+  # GraphQL-Ruby calls this when something goes wrong while running a query:
+  def self.type_error: (untyped err, untyped context) -> untyped
+
+  # Union and Interface Resolution
+  def self.resolve_type: (untyped abstract_type, untyped obj, untyped ctx) -> untyped
+
+  # Return a string UUID for `object`
+  def self.id_from_object: (untyped object, untyped type_definition, untyped query_ctx) -> untyped
+
+  # Given a string UUID, find the object
+  def self.object_from_id: (untyped global_id, untyped query_ctx) -> untyped
+end

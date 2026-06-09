@@ -13,7 +13,7 @@ class Tenant < ApplicationRecord
   scope :active, -> { where(active: true) }
 
   def folders
-    self.photos.where.not(folder_date: nil).group_by(&:folder_date).map { |folder, photos| Folder.new(folder, photos) }
+    self.photos.where.not(folder_date: nil).group_by(&:folder_date).map { |folder, photos| Folder.new(folder.to_s, photos) }
   end
 
   def self.default_tenant

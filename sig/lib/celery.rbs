@@ -1,0 +1,3 @@
+module Celery
+  def self.enqueue: [R] (String, *untyped) -> R
+end

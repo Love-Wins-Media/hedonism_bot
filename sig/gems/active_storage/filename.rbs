@@ -1,0 +1,9 @@
+module ActiveStorage
+  class Filename
+    include ::_ToPath
+    include ::_ToStr
+    include ::_ToS
+
+    def initialize: (string) -> void
+  end
+end

@@ -1,3 +1,3 @@
 module GraphQL::Schema::Member::RelayShortcuts
-  def self.edge_type_class: (untyped) -> void
+  def self.edge_type_class: (Class) -> void
 end

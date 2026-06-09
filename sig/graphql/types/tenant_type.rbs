@@ -1,0 +1,4 @@
+module Types
+  class TenantType < BaseObject
+  end
+end

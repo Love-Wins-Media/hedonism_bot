@@ -1,0 +1,7 @@
+class ::Tenant < ::ApplicationRecord
+  def self.default_tenant: -> ::Tenant
+  def folders: -> array[Folder]
+
+  private
+  def ensure_api_key: -> void
+end

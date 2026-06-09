@@ -1,0 +1,10 @@
+class Folder
+  attr_accessor name: String
+  attr_accessor photos: [Photo]
+
+  def to_gid_param: () -> String
+
+  def initialize: (string, Array[Photo]) -> void
+
+  def self.find: (string) -> Folder
+end

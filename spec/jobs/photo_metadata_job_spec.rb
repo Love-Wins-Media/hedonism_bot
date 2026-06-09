@@ -5,7 +5,7 @@ RSpec.describe PhotoMetadataJob, type: :job do
 
   let(:photo) { create(:photo, tenant: tenant) }
 
-  it "should get metadata on a created photo" do
-    PhotoMetadataJob.perform_now(photo)
+  it "gets metadata on a created photo" do
+    expect(described_class.perform_now(photo)).to be_truthy
   end
 end

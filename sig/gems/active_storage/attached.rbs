@@ -1,0 +1,13 @@
+module ActiveStorage
+  # Decorated proxy object representing of multiple attachments to a model.
+  class Attached::Many < Attached
+    include Enumerable[Attachment]
+    def purge: -> void
+  end
+
+  class Attachment
+    def url: -> string
+    def open: () { (File) -> void } -> void
+    attr_reader content_type: string
+  end
+end

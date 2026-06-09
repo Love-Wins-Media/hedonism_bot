@@ -1,0 +1,3 @@
+class PhotoToJpegJob < ApplicationJob
+  def perform: (untyped photo) -> (nil | untyped)
+end

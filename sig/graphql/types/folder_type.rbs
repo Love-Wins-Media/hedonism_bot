@@ -1,0 +1,7 @@
+module Types
+  class FolderType < Types::BaseObject
+    def photo_count: () -> untyped
+
+    def name: () -> untyped
+  end
+end

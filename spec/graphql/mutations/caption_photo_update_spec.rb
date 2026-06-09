@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "GraphQL CaptionPhotoUpdate Mutation", type: :graphql do
+RSpec.describe Mutations::CaptionPhotoUpdate, type: :graphql do
   before do
     mock_tenant
   end

@@ -2,13 +2,18 @@
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
 plugins:
+  - rubocop-rbs_inline
   - rubocop-rake
   - rubocop-rspec
+
 
 AllCops:
   NewCops: enable
   Exclude:
     - 'lib/tasks/cucumber.rake'
+
+Layout/LeadingCommentSpace:
+  AllowRBSInlineAnnotation: true
 
 # Overwrite or add rules to create your own house style
 #

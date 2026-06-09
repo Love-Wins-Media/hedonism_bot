@@ -1,5 +1,5 @@
 module ActiveJob
   class Base
-    def self.queue_as: (Symbol) -> void
+    def self.queue_as: (interned) -> void
   end
 end

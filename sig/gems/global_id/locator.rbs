@@ -1,0 +1,5 @@
+class GlobalID
+  module Locator
+    def self.locate: (string) -> top
+  end
+end

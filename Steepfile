@@ -1,4 +1,4 @@
-# D = Steep::Diagnostic
+D = Steep::Diagnostic
 #
 # target :lib do
 #   signature "sig"
@@ -33,10 +33,11 @@
 
 target :app do
   # Declare the directory where your base RBS type definitions live
-  signature "sig", "sig/rbs_rails", "sig/gems"
+  signature "sig"
 
   # Direct Steep to check your Rails application code
   check "app"
+
 
   # Ignore strict type-checking for specific paths (e.g., Rails migrations)
   ignore "db/migrate"

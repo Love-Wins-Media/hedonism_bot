@@ -1,0 +1,19 @@
+module Types
+  class PhotoType < Types::BaseObject
+    def facial_recognition_url: () -> untyped
+
+    def event_name: () -> nil
+
+    def taken_at: () -> untyped
+
+    def filename: () -> untyped
+
+    def faces: () -> untyped
+
+    def is_purchased: () -> false
+
+    def alternate_description: () -> "TODO: Replace me with a for the blind description of the image"
+
+    def preview_url: () -> untyped
+  end
+end

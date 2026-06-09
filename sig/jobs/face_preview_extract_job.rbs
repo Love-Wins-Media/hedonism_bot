@@ -1,4 +1,4 @@
-class FacePreviewExtractJob
+class ::FacePreviewExtractJob < ::ApplicationJob
   def perform: (PhotoPerson) -> void
 
   def self.perform_now: (PhotoPerson) -> void

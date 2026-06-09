@@ -69,7 +69,7 @@ group :development, :test do
   gem "graphiql-rails"
 
   # Static Typing
-  gem "rbs_rails", require: false
+  gem "rbs_rails"
 
   gem "rspec-rails"
 
@@ -103,12 +103,12 @@ group :development, :test do
   gem "rubocop-rspec"
   gem "rubocop-rake"
   gem "rubocop-performance"
+  gem "rubocop-rbs_inline"
 
   gem "steep"
 end
 
 group :development do
   gem "web-console"
-
   gem "chrome_devtools_rails"
 end
