@@ -3,9 +3,6 @@
 require "celery"
 
 class UploadController < ApplicationController
-  def index
-  end
-
   def cluster
     render json: Person.cluster
   end

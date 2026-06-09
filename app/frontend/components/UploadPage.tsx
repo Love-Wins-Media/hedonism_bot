@@ -1,12 +1,15 @@
 import {useState, useRef, useCallback, DragEvent, CSSProperties} from "react";
-import {CheckCircle2, CloudUpload, Loader2, X, XCircle, ArrowLeft, ImagePlus} from "lucide-react";
+import { CloudUpload, Loader2, ArrowLeft, ImagePlus} from "lucide-react";
 import {Progress} from "./Progress";
+import {FileCard} from "./FileCard";
+import {isSafari} from "react-device-detect";
+import {Link} from "react-router";
 
 const RAW_FORMAT_EXTENSIONS = ['.arw'];
 
-interface UploadFile {
+export interface UploadFile {
     id: string;
-    previewUrl: string;
+    previewUrl: string | null;
     status: "queued" | "uploading" | "done" | "error";
     progress: number;
     title: string;
@@ -37,8 +40,7 @@ export function UploadPage({ onBack }: UploadPageProps) {
     const inputRef = useRef<HTMLInputElement>(null);
     const dragCounter = useRef(0);
 
-    const addFiles = useCallback(
-        (incoming: Files) => {
+    const addFiles = useCallback(async (incoming: Files) => {
             const imageFiles = Array.from(incoming).filter((f) =>
                 f.type.startsWith("image/"),
             );
@@ -54,7 +56,7 @@ export function UploadPage({ onBack }: UploadPageProps) {
                 uploads[basename] = {
                     id: `${rawPhoto.name}-${rawPhoto.size}-${Date.now()}-${Math.random()}`,
                         rawPhoto: rawPhoto,
-                    previewUrl: URL.createObjectURL(rawPhoto),
+                    previewUrl: null,
                     status: "queued",
                     title: basename,
                     processedPhotos: [],
@@ -64,10 +66,11 @@ export function UploadPage({ onBack }: UploadPageProps) {
 
             for (const processedPhoto of processedPhotos) {
                 const basename = stripExtension(processedPhoto.name);
-
                 if (basename in uploads) {
                     uploads[basename].processedPhotos.push(processedPhoto);
-                    uploads[basename].previewUrl = URL.createObjectURL(processedPhoto);
+                    if (isSafari) {
+                        uploads[basename].previewUrl = URL.createObjectURL(processedPhoto);
+                    }
                 } else {
                     console.error(`Processed photo ${processedPhoto.name} does not have a corresponding raw photo (${processedPhoto.type})`);
                 }
@@ -98,6 +101,7 @@ export function UploadPage({ onBack }: UploadPageProps) {
     };
     const handleDragOver = (e: DragEvent) =>
         e.preventDefault();
+
     const handleDrop = (e: DragEvent) => {
         e.preventDefault();
         dragCounter.current = 0;
@@ -109,13 +113,13 @@ export function UploadPage({ onBack }: UploadPageProps) {
     const removeFile = (id: string) => {
         setFiles((prev) => {
             const f = prev.find((f) => f.id === id);
-            if (f) URL.revokeObjectURL(f.previewUrl);
+            if (f) f.previewUrl && URL.revokeObjectURL(f.previewUrl);
             return prev.filter((f) => f.id !== id);
         });
     };
 
     const clearAll = () => {
-        files.forEach((f) => URL.revokeObjectURL(f.previewUrl));
+        files.forEach((f) => f.previewUrl && URL.revokeObjectURL(f.previewUrl));
         setFiles([]);
     };
 
@@ -232,48 +236,15 @@ export function UploadPage({ onBack }: UploadPageProps) {
             }}
         >
             {/* Header */}
-            <header
-                className="flex items-center gap-4 px-6 py-3.5 border-b shrink-0"
-                style={{
-                    borderColor: "var(--border)",
-                    background: "var(--card)",
-                }}
-            >
-                <button
-                    onClick={onBack}
-                    className="flex items-center gap-1.5 transition-opacity hover:opacity-70"
-                    style={{
-                        color: "var(--muted-foreground)",
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: "0.875rem",
-                    }}
-                >
+            <header className="upload-header">
+                <Link to="/" className="back-link flex items-center gap-1.5 transition-opacity hover:opacity-70">
                     <ArrowLeft className="w-4 h-4" />
                     Back to gallery
-                </button>
-                <div
-                    className="h-4 w-px"
-                    style={{ background: "var(--border)" }}
-                />
-                <span
-                    style={{
-                        fontFamily: "'Playfair Display', serif",
-                        color: "var(--foreground)",
-                        fontSize: "1.125rem",
-                    }}
-                >
-          Upload Photos
-        </span>
+                </Link>
+                <div className="h-4 w-px" style={{ background: "var(--border)" }}/>
+                <span className="upload-title">Upload Photos</span>
                 {files.length > 0 && (
-                    <span
-                        className="text-xs ml-1"
-                        style={{
-                            color: "var(--muted-foreground)",
-                            fontFamily: "'DM Mono', monospace",
-                        }}
-                    >
-            {files.length} file{files.length !== 1 ? "s" : ""}
-          </span>
+                    <span className="upload-subheader">{files.length} file{files.length !== 1 ? "s" : ""}</span>
                 )}
             </header>
 
@@ -541,176 +512,5 @@ export function UploadPage({ onBack }: UploadPageProps) {
     );
 }
 
-function FileCard({
-                      file,
-                      onRemove,
-                      uploading,
-                  }: {
-    file: UploadFile;
-    onRemove: (id: string) => void;
-    uploading: boolean;
-}) {
-    const canRemove = !uploading || file.status !== "uploading";
 
-    return (
-        <div
-            className="relative group overflow-hidden flex flex-col"
-            style={{
-                borderRadius: "var(--radius-sm)",
-                border: "1px solid var(--border)",
-                background: "var(--card)",
-            }}
-        >
-            {/* Thumbnail */}
-            <div className="relative aspect-4/3 overflow-hidden bg-muted">
-                <img
-                    src={file.previewUrl}
-                    alt={file.rawPhoto.name}
-                    className="w-full h-full object-cover"
-                    style={{
-                        filter:
-                            file.status === "done"
-                                ? "none"
-                                : file.status === "error"
-                                    ? "brightness(0.5) saturate(0)"
-                                    : "none",
-                        transition: "filter 0.3s",
-                    }}
-                />
 
-                {/* Status overlay */}
-                {file.status === "done" && (
-                    <div
-                        className="absolute inset-0 flex items-center justify-center"
-                        style={{ background: "rgba(0,0,0,0.35)" }}
-                    >
-                        <CheckCircle2
-                            className="w-8 h-8"
-                            style={{ color: "var(--primary)" }}
-                        />
-                    </div>
-                )}
-                {file.status === "error" && (
-                    <div
-                        className="absolute inset-0 flex flex-col items-center justify-center gap-1"
-                        style={{ background: "rgba(0,0,0,0.6)" }}
-                    >
-                        <XCircle
-                            className="w-7 h-7"
-                            style={{ color: "var(--destructive)" }}
-                        />
-                        <p
-                            className="text-xs"
-                            style={{
-                                color: "#fff",
-                                fontFamily: "'DM Mono', monospace",
-                            }}
-                        >
-                            Failed
-                        </p>
-                    </div>
-                )}
-                {file.status === "uploading" && (
-                    <div
-                        className="absolute inset-0 flex items-center justify-center"
-                        style={{ background: "rgba(0,0,0,0.4)" }}
-                    >
-                        <Loader2
-                            className="w-7 h-7 animate-spin"
-                            style={{ color: "var(--primary)" }}
-                        />
-                    </div>
-                )}
-
-                {/* Remove button */}
-                {canRemove && (
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onRemove(file.id);
-                        }}
-                        className="absolute top-1.5 right-1.5 p-1 rounded transition-opacity opacity-0 group-hover:opacity-100"
-                        style={{
-                            background: "rgba(15,15,15,0.75)",
-                            color: "#fff",
-                            borderRadius: "var(--radius-sm)",
-                        }}
-                        title="Remove"
-                    >
-                        <X className="w-3 h-3" />
-                    </button>
-                )}
-            </div>
-
-            {/* Progress bar */}
-            {(file.status === "uploading" ||
-                file.status === "done") && (
-                <div
-                    className="absolute bottom-0 left-0 right-0 h-0.5 transition-all duration-200"
-                    style={{
-                        background: "var(--muted)",
-                    }}
-                >
-                    <div
-                        className="h-full transition-all duration-200"
-                        style={{
-                            width: `${file.progress}%`,
-                            background:
-                                file.status === "done"
-                                    ? "var(--primary)"
-                                    : "var(--primary)",
-                        }}
-                    />
-                </div>
-            )}
-
-            {/* Filename + size */}
-            <div className="px-2 py-1.5 flex flex-col gap-0.5">
-                <p
-                    className="text-xs truncate"
-                    style={{
-                        color: "var(--foreground)",
-                        fontFamily: "'Inter', sans-serif",
-                    }}
-                    title={file.title}
-                >
-                    {file.rawPhoto.name}
-                </p>
-                <p
-                    className="text-xs"
-                    style={{
-                        color: "var(--muted-foreground)",
-                        fontFamily: "'DM Mono', monospace",
-                    }}
-                >
-                    {formatBytes(file.rawPhoto.size)}
-                    {file.status === "uploading" && (
-                        <span style={{ color: "var(--primary)" }}>
-              {" "}
-                            · {Math.round(file.progress)}%
-            </span>
-                    )}
-                    {file.status === "done" && (
-                        <span style={{ color: "var(--primary)" }}>
-              {" "}
-                            · Done
-            </span>
-                    )}
-                    {file.status === "error" && (
-                        <span style={{ color: "var(--destructive)" }}>
-              {" "}
-                            · Error
-            </span>
-                    )}
-                </p>
-            </div>
-        </div>
-    );
-}
-
-function formatBytes(bytes: number): string {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024)
-        return `${(bytes / 1024).toFixed(0)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}

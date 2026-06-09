@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   end
 
   post "upload" => "upload#upload"
-  get "upload" => "upload#index"
   get "infer" => "upload#infer"
   get "cluster" => "upload#cluster"
 
@@ -16,5 +15,6 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
+  get "upload" => "home#index"
   root "home#index"
 end
