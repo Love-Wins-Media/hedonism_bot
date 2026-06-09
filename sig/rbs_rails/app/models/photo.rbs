@@ -709,7 +709,8 @@ class ::Photo < ::ApplicationRecord
 
   def self.for_date: (untyped date) -> ::Photo::ActiveRecord_Relation
   def self.processed: () -> ::Photo::ActiveRecord_Relation
-  def self.with_face: () -> ::Photo::ActiveRecord_Relation
+  def self.with_face: (untyped person_id) -> ::Photo::ActiveRecord_Relation
+  def self.with_preview_image: () -> ::Photo::ActiveRecord_Relation
   def self.with_attached_raw_image: () -> ::Photo::ActiveRecord_Relation
   def self.with_attached_images: () -> ::Photo::ActiveRecord_Relation
 
@@ -718,7 +719,9 @@ class ::Photo < ::ApplicationRecord
 
     def processed: () -> ::Photo::ActiveRecord_Relation
 
-    def with_face: () -> ::Photo::ActiveRecord_Relation
+    def with_face: (untyped person_id) -> ::Photo::ActiveRecord_Relation
+
+    def with_preview_image: () -> ::Photo::ActiveRecord_Relation
 
     def with_attached_raw_image: () -> ::Photo::ActiveRecord_Relation
 

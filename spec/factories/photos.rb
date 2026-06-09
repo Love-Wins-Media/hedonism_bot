@@ -1,17 +1,37 @@
 FactoryBot.define do
+  sequence(:image_file) { |n| "DSC0000#{(n % 6) + 1}" }
+
   factory :photo do
-    tenant { Tenant.default_tenant }
-    venue
-    image_hash { SecureRandom.hex(16) }
-    status { "processed" }
+    transient do
+      file { generate(:image_file) }
+    end
+
+    tenant { create(:default_tenant) }
+
+    image_hash {
+      filename = Rails.root.join("spec/fixtures/#{file}.arw")
+      filename.open do |f|
+        Digest::SHA256.file(f).digest
+      end
+    }
+
+    byte_size {
+      File.stat(Rails.root.join("spec/fixtures/#{file}.arw")).size
+    }
+
+    original_filename { "#{file}.arw" }
+
+    status { "pending" }
     folder_date { Date.today }
     taken_at { Date.yesterday }
+    content_type { "image/x-sony-arw" }
 
-    after(:create) do |photo|
-      raw_photo = Rails.root.join('spec/fixtures/DSC00001.ARW')
-      processed_photo = Rails.root.join('spec/fixtures/DSC00001.HIF')
+    after(:create) do |photo, context|
+      raw_photo = Rails.root.join("spec/fixtures/#{context.file}.arw")
+      processed_photo = Rails.root.join("spec/fixtures/#{context.file}.hif")
       photo.raw_image.attach(io: File.open(raw_photo), filename: 'DSC00001.ARW', content_type: 'image/x-sony-arw')
       photo.images.attach(io: File.open(processed_photo), filename: 'DSC00001.HIF', content_type: 'image/heif')
+      PhotoToJpegJob.perform_now photo
     end
   end
 end

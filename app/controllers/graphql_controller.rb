@@ -8,11 +8,11 @@ class GraphqlController < ApplicationController
 
   def execute
     variables = prepare_variables(params[:variables])
-    query = params[:query]
+    query = params[:query] #: ::string
     operation_name = params[:operationName]
     context = {
       tenant: Tenant.find_by(subdomain: request.subdomain),
-      current_user: nil,
+      current_user: nil
     }
     result = HedonismBotSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result

@@ -6,7 +6,7 @@ class Photo < ApplicationRecord
   STATUSES = %w[pending processing processed failed hidden].freeze
 
   APPLE_FORMATS = %w[image/heic image/heif]
-  COMPOSITE_PREFERENCE_LIST = %w[image/heif image/heic image/jpeg image/png]
+  COMPOSITE_PREFERENCE_LIST = %w[image/heif image/heic image/jpeg image/png video/quicktime]
 
   RAW_FORMATS = {
     arw: { mime_type: "image/x-sony-arw" }
@@ -39,9 +39,12 @@ class Photo < ApplicationRecord
   validates :status, inclusion: { in: STATUSES }
   validates_uniqueness_of :image_hash
 
+  validates :original_filename, :tenant_id, :content_type, :byte_size, presence: true
+
   scope :for_date, ->(date) { where(folder_date: date) }
   scope :processed, -> { where(status: "processed") }
-  scope :with_face, -> { joins(:face_image_blob) }
+  scope :with_face, ->(person_id) { includes(:people).where(people: { id: person_id }) }
+  scope :with_preview_image, -> { includes(images_attachments: :blob).joins(images_attachments: :blob).where(blob: { content_type: "image/jpeg" }) }
 
   # Group photos by the date they were taken (folder_date), newest day first.
   # Returns an ordered hash of { Date => [Photo, ...] }.
@@ -85,7 +88,7 @@ class Photo < ApplicationRecord
   end
 
   def preview_url
-    images.filter { |i| i.blob.content_type == "image/jpeg" }.first&.url
+    images_attachments.select { |i| i.blob.content_type == "image/jpeg" }.first&.url
   end
 
   def has_format?(mime_type)

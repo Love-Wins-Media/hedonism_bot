@@ -108,6 +108,10 @@ group :development, :test do
   gem "steep"
 end
 
+group :test do
+  gem "test-prof"
+end
+
 group :development do
   gem "web-console"
   gem "chrome_devtools_rails"

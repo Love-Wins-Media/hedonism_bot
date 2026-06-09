@@ -1,8 +1,5 @@
-def mock_tenant
-  tenant = Tenant.find_or_create_by(subdomain: 'test') do |tenant|
-    tenant.name = 'Test Tenant'
-    tenant.api_key = 'test_key'
-  end
+def mock_tenant(tenant = nil)
+  tenant ||= create(:default_tenant)
 
-  allow(Tenant).to receive(:default_tenant).and_return(tenant)
+  allow(Tenant).to receive_messages(default_tenant: tenant, find_by: tenant)
 end

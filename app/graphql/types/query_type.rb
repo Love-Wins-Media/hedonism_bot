@@ -18,12 +18,12 @@ module Types
     end
 
     def tenant
-      Tenant.default_tenant
+      context[:tenant]
     end
 
     def faces(folder_id: nil)
       if folder_id
-        photos = Photo.where("folder_date = ?", folder_id)
+        photos = Photo.where("folder_date = ?", GlobalID.parse(folder_id).model_id)
         photos.map { |photo| photo.people }.flatten.uniq
       else
         PhotoPerson.joins(:face_image_blob).includes(:person).map { |photo_person| photo_person.person }.uniq
@@ -41,24 +41,25 @@ module Types
     end
 
     def photos(face_id: nil, folder_id: nil)
+      photos = Photo.where(tenant: tenant).with_preview_image
+
       if face_id
-        photos = HedonismBotSchema.object_from_id(face_id, context).photos.joins(:images_blobs)
-      else
-        photos = tenant.photos.order(:folder_date).joins(:images_blobs)
+        face = GlobalID.parse(face_id).model_id
+        photos = photos.with_face(face)
       end
 
       if folder_id
-        photos = photos.where(folder_date: folder_id)
-      else
-        photos = photos.where.not(taken_at: nil)
+        folder = GlobalID.parse(folder_id).model_id
+        photos = photos.where(folder_date: folder)
       end
 
-      photos.uniq.sort_by { |p| p.taken_at.to_s || p.id }
+      photos.order(:taken_at)
     end
 
     field :photo, PhotoType, null: true do
       argument :id, ID, required: true, description: "ID of the photo"
     end
+
     def photo(id:)
       Photo.find(id)
     end

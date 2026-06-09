@@ -3,12 +3,9 @@ require 'rails_helper'
 RSpec.describe Types::PhotoType, type: :graphql do
   before do
     mock_tenant
-    5.times do
-      create(:photo, tenant: tenant)
-    end
   end
 
-  let(:tenant) { Tenant.default_tenant }
+  let_it_be(:photos) { create_list(:photo, 5) }
 
   let(:query) do
     <<~GQL
@@ -20,8 +17,13 @@ RSpec.describe Types::PhotoType, type: :graphql do
     GQL
   end
 
-  it "types photos" do
-    execute_graphql(query)
-    expect(data["photos"].length).to be(5)
+  describe "valid query" do
+    before do
+      execute_graphql(query)
+    end
+
+    it "types photos" do
+      expect(data["photos"].length).to be(5)
+    end
   end
 end

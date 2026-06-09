@@ -1,7 +1,13 @@
 FactoryBot.define do
   factory :tenant do
     name { "Test Tenant" }
-    sequence(:subdomain) { |n| "tenant#{n}" }
+
+    subdomain { "test-tenant" }
+
     active { true }
+
+    factory :default_tenant do
+      initialize_with { Tenant.first_or_create }
+    end
   end
 end

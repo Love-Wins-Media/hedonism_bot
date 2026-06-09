@@ -1,4 +1,6 @@
 class Folder
+  @id: string
+
   attr_accessor name: String
   attr_accessor photos: [Photo]
 

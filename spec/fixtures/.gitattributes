@@ -1,0 +1,2 @@
+*.hif filter=lfs diff=lfs merge=lfs -text
+**/*.hif filter=lfs diff=lfs merge=lfs -text

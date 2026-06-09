@@ -1,6 +1,7 @@
 module GraphQLHelpers
   # Executes a query or mutation directly against the schema
   def execute_graphql(query, variables: {}, context: {})
+    context[:tenant] ||= build(:default_tenant)
     @response = HedonismBotSchema.execute(
       query,
       variables: variables,
