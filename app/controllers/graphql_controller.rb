@@ -10,8 +10,10 @@ class GraphqlController < ApplicationController
     variables = prepare_variables(params[:variables])
     query = params[:query] #: ::string
     operation_name = params[:operationName]
+    tenant = Tenant.find_by(subdomain: request.subdomain)
+    tenant ||= Tenant.default_tenant if Rails.env.development?
     context = {
-      tenant: Tenant.find_by(subdomain: request.subdomain),
+      tenant: tenant,
       current_user: nil
     }
     result = HedonismBotSchema.execute(query, variables: variables, context: context, operation_name: operation_name)

@@ -55,13 +55,5 @@ module Types
 
       photos.order(:taken_at)
     end
-
-    field :photo, PhotoType, null: true do
-      argument :id, ID, required: true, description: "ID of the photo"
-    end
-
-    def photo(id:)
-      Photo.find(id)
-    end
   end
 end

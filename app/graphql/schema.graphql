@@ -437,12 +437,6 @@ type Query {
     """
     ids: [ID!]!
   ): [Node]!
-  photo(
-    """
-    ID of the photo
-    """
-    id: ID!
-  ): Photo
 
   """
   All photos for a particular tenant
