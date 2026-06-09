@@ -11,5 +11,9 @@ module Types
     def photo_count
       @object.photos.count
     end
+
+    def name
+      @object.id
+    end
   end
 end

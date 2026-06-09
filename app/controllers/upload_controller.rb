@@ -33,7 +33,7 @@ class UploadController < ApplicationController
     logger.info "Performing Upload for Image #{basename} with configuration => #{configuration}"
 
     image_hash = Digest::SHA256.hexdigest(raw_image.read)
-    photo = Photo.find_or_initialize_by(image_hash: image_hash, tenant: @tenant)
+    photo = Photo.find_or_initialize_by(image_hash: image_hash, tenant: tenant)
     photo.byte_size = raw_image.size
     photo.original_filename = filename
     photo.raw_image.attach(raw_image) unless photo.raw_image.attached?

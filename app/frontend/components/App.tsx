@@ -1,16 +1,15 @@
-import {Component, useState} from "react";
+import { useState} from "react";
 import { Calendar, Camera, Filter, Grid3X3, LayoutList, Search, ShoppingBag, X } from "lucide-react";
 import { Badge } from "./Badge";
 import { Input } from "./Input";
 import { ScrollArea } from "./ScrollArea";
-import { PhotoCard } from "./PhotoCard";
 import { FaceGroup } from "./FaceGroup";
 import { PurchaseModal } from "./PurchaseModal";
 import { PhotoViewer } from "./PhotoViewer";
-import {Separator} from "./Separator";
+import { Separator } from "./Separator";
 import { graphql, useLazyLoadQuery } from 'react-relay';
-import {BaseApplicationQuery} from "./__generated__/BaseApplicationQuery.graphql";
-import {PhotoViewerFragment$key} from "./__generated__/PhotoViewerFragment.graphql";
+import { BaseApplicationQuery } from "./__generated__/BaseApplicationQuery.graphql";
+import { PhotoViewerFragment$key } from "./__generated__/PhotoViewerFragment.graphql";
 import PhotoCollection from "./PhotoCollection";
 
 const BASE_QUERY = graphql`
@@ -28,13 +27,11 @@ query BaseApplicationQuery($faceId: ID, $folderId: ID) {
     photos(faceId: $faceId, folderId: $folderId) {
         id
         ...PhotoCollection_photos
-        ...PhotoFragment
     }
 }
 `
 
 export default function App() {
-
     const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
     const [selectedFaceId, setSelectedFaceId] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
@@ -48,15 +45,9 @@ export default function App() {
         folderId: selectedEventId,
     });
 
-    return <div
-            className="min-h-screen flex flex-col"
-            style={{ background: "var(--background)", fontFamily: "'Inter', sans-serif" }}
-        >
+    return <div className="min-h-screen flex flex-col" style={{ background: "var(--background)", fontFamily: "'Inter', sans-serif" }}>
             {/* Top nav */}
-            <header
-                className="flex items-center justify-between px-6 py-3.5 border-b shrink-0"
-                style={{ borderColor: "var(--border)", background: "var(--card)" }}
-            >
+            <header className="flex items-center justify-between px-6 py-3.5 border-b shrink-0" style={{ borderColor: "var(--border)", background: "var(--card)" }}>
                 <div className="flex items-center gap-3">
                     <Camera className="w-4.5 h-4.5" style={{ color: "var(--primary)" }} />
                     <span
@@ -285,5 +276,4 @@ export default function App() {
                 onPurchaseComplete={() => {}}
             />
         </div>;
-
 }

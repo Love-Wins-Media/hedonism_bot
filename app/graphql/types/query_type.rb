@@ -47,9 +47,13 @@ module Types
         photos = tenant.photos.order(:folder_date).joins(:images_blobs)
       end
 
-      photos = photos.where(folder_date: folder_id) if folder_id
+      if folder_id
+        photos = photos.where(folder_date: folder_id)
+      else
+        photos = photos.where.not(taken_at: nil)
+      end
 
-      photos
+      photos.uniq.sort_by { |p| p.taken_at.to_s || p.id }
     end
 
     field :photo, PhotoType, null: true do

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<96e588e14d08242f086ebb7d57794197>>
+ * @generated SignedSource<<4623e5fd5cd64352e81d8dfd96902765>>
  * @lightSyntaxTransform
  */
 
@@ -29,11 +29,15 @@ const node: ReaderFragment = {
   "name": "PhotoViewerFragment",
   "selections": [
     {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "id",
-      "storageKey": null
+      "kind": "RequiredField",
+      "field": {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "id",
+        "storageKey": null
+      },
+      "action": "THROW"
     },
     {
       "alias": null,
@@ -68,6 +72,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "9c799bf8e0a3d262b258478cf684b27d";
+(node as any).hash = "cf7738775541dbfc0ccefa9d10fbd06e";
 
 export default node;

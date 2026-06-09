@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0f9aa722e0529c9f6dae6ad1ea37ec5e>>
+ * @generated SignedSource<<55215841ca1c1247f6f5bdfc31812384>>
  * @lightSyntaxTransform
  */
 
@@ -26,7 +26,7 @@ export type BaseApplicationQuery$data = {
   };
   readonly photos: ReadonlyArray<{
     readonly id: string;
-    readonly " $fragmentSpreads": FragmentRefs<"PhotoCollection_photos" | "PhotoFragment">;
+    readonly " $fragmentSpreads": FragmentRefs<"PhotoCollection_photos">;
   }>;
 };
 export type BaseApplicationQuery = {
@@ -148,11 +148,6 @@ return {
             "args": null,
             "kind": "FragmentSpread",
             "name": "PhotoCollection_photos"
-          },
-          {
-            "args": null,
-            "kind": "FragmentSpread",
-            "name": "PhotoFragment"
           }
         ],
         "storageKey": null
@@ -212,6 +207,13 @@ return {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
+            "name": "eventName",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
             "name": "isPurchased",
             "storageKey": null
           },
@@ -242,16 +244,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "7733aa4b79324d511806c9ea18d25cfc",
+    "cacheID": "32c95f1bf1c5abd329ed819267c0e00a",
     "id": null,
     "metadata": {},
     "name": "BaseApplicationQuery",
     "operationKind": "query",
-    "text": "query BaseApplicationQuery(\n  $faceId: ID\n  $folderId: ID\n) {\n  folders(faceId: $faceId) {\n    nodes {\n      id\n      name\n      photoCount\n    }\n  }\n  faces(folderId: $folderId) {\n    ...FaceFragment_faces\n  }\n  photos(faceId: $faceId, folderId: $folderId) {\n    id\n    ...PhotoCollection_photos\n    ...PhotoFragment\n  }\n}\n\nfragment FaceFragment_face on Face {\n  id\n  thumbnailUrl\n  photoCount\n}\n\nfragment FaceFragment_faces on FaceConnection {\n  nodes {\n    id\n    ...FaceFragment_face\n  }\n}\n\nfragment PhotoCollection_photos on Photo {\n  id\n  ...PhotoFragment\n}\n\nfragment PhotoFragment on Photo {\n  id\n  isPurchased\n  previewUrl\n  takenAt\n  caption\n}\n"
+    "text": "query BaseApplicationQuery(\n  $faceId: ID\n  $folderId: ID\n) {\n  folders(faceId: $faceId) {\n    nodes {\n      id\n      name\n      photoCount\n    }\n  }\n  faces(folderId: $folderId) {\n    ...FaceFragment_faces\n  }\n  photos(faceId: $faceId, folderId: $folderId) {\n    id\n    ...PhotoCollection_photos\n  }\n}\n\nfragment FaceFragment_face on Face {\n  id\n  thumbnailUrl\n  photoCount\n}\n\nfragment FaceFragment_faces on FaceConnection {\n  nodes {\n    id\n    ...FaceFragment_face\n  }\n}\n\nfragment PhotoCollection_photos on Photo {\n  id\n  ...PhotoFragment\n}\n\nfragment PhotoFragment on Photo {\n  id\n  eventName\n  isPurchased\n  previewUrl\n  takenAt\n  caption\n}\n"
   }
 };
 })();
 
-(node as any).hash = "74faf1365f7bd0a67ea1b21e98abfc72";
+(node as any).hash = "ef6b0fd6ed98a86d6b1d00428fc56bdc";
 
 export default node;

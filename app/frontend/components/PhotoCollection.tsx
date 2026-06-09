@@ -12,7 +12,8 @@ const PHOTOS_FRAGMENT = graphql`
 export default function PhotoCollection({photos}: { photos: PhotoCollection_photos$key }) {
     const data = useFragment(PHOTOS_FRAGMENT, photos)
 
-    const photo_cards = data.map(photo => {
+
+    const photo_cards = data?.map(photo => {
             return <PhotoCard key={photo.id} photo={photo} />
         }
     );

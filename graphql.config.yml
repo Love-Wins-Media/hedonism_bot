@@ -1,5 +1,7 @@
-schema:
-  - http://localhost:5000/graphql
-documents: "src/frontend/**/*.{graphql,ts,tsx}"
-exclude:
-  - "spec/**"
+schema: ./app/graphql/schema.graphql
+extensions:
+  endpoints:
+    local:
+      url: "http://localhost:5000/graphql"
+      headers:
+        Authorization: "Bearer YOUR_TOKEN_HERE"

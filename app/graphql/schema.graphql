@@ -256,6 +256,11 @@ type Photo implements Node {
   contentType: String!
 
   """
+  Name of the event associated with the photo
+  """
+  eventName: String
+
+  """
   Faces in the photo
   """
   faces(

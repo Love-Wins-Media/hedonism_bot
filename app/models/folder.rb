@@ -1,14 +1,18 @@
 class Folder
   include ActiveModel::API
+  include GlobalID::Identification
 
-  attr_accessor :name, :photos
+  attr_accessor :id, :photos
 
-  def initialize(name, photos)
-    @name = name
-    @photos = photos
+  def initialize(id, photos)
+    raise ArgumentError, "Folder ID cannot be nil" if id.nil?
+
+    @id = id
+    @photos = photos || []
   end
 
-  def to_gid_param
-    @name
+  def self.find(id)
+    photos = Photo.find_by(folder_date: id)
+    new(id, photos)
   end
 end

@@ -1,20 +1,12 @@
 import * as React from "react";
 import {Label as LabelPrimitive} from "radix-ui";
-import {cva} from "class-variance-authority";
+import {clsx} from "clsx";
 
-const labelVariants = cva("flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50");
 
-function Label({
+export function Label({
                    className,
                    ...props
                }: React.ComponentProps<typeof LabelPrimitive.Root>) {
-    return (
-        <LabelPrimitive.Root
-            data-slot="label"
-            className={labelVariants({className})}
-            {...props}
-        />
-    );
-}
 
-export {Label};
+    return <LabelPrimitive.Root data-slot="label" className={clsx("label-base", className)} {...props} />
+}

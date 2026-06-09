@@ -56,9 +56,9 @@ export function FaceGroup({faces, selectedFaceId, onSelect}: FaceGroupProps) {
             </button>
 
             {data.nodes?.map(face => face ? (
-                <Face key={face!.id} face={face!} selected={faceId === face!.id} onSelect={() => {
-                    setFaceId(face!.id);
-                    onSelect?.(face!.id)
+                <Face key={face.id} face={face} selected={faceId === face.id} onSelect={() => {
+                    setFaceId(face.id);
+                    onSelect?.(face.id)
                 }}/>
             ) : null)}
         </div>

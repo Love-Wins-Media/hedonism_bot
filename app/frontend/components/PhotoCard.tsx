@@ -6,6 +6,17 @@ import {ImageWithFallback} from "./ImageWithCallback";
 import {graphql, useFragment} from "react-relay";
 import {PhotoFragment$key} from "./__generated__/PhotoFragment.graphql";
 
+const PHOTO_CARD_FRAGMENT = graphql`
+        fragment PhotoFragment on Photo {
+            id
+            eventName
+            isPurchased
+            previewUrl
+            takenAt
+            caption
+        }
+    `;
+
 interface PhotoCardProps {
     photo: PhotoFragment$key;
     onSelect?: (photo: string) => void;
@@ -13,15 +24,7 @@ interface PhotoCardProps {
 }
 
 export function PhotoCard({photo, onSelect, onPurchase}: PhotoCardProps) {
-    const data = useFragment(graphql`
-        fragment PhotoFragment on Photo {
-            id
-            isPurchased
-            previewUrl
-            takenAt
-            caption
-        }
-    `, photo);
+    const data = useFragment(PHOTO_CARD_FRAGMENT, photo);
     const [hovered, setHovered] = useState(false);
 
     return (
@@ -66,17 +69,18 @@ export function PhotoCard({photo, onSelect, onPurchase}: PhotoCardProps) {
                     style={{opacity: hovered ? 1 : 0, transform: hovered ? "translateY(0)" : "translateY(8px)"}}
                 >
                     <div>
-                        <p
-                            className="text-xs mb-0.5 truncate"
-                            style={{color: "var(--muted-foreground)", fontFamily: "'DM Mono', monospace"}}
-                        >
-                            "Event"
-                        </p>
+
                         <p style={{
                             color: "var(--foreground)",
                             fontFamily: "'Inter', sans-serif",
                             fontSize: "0.8125rem"
                         }}>
+                            Event Name
+                        </p>
+                        <p
+                            className="text-xs mb-0.5 truncate"
+                            style={{color: "var(--muted-foreground)", fontFamily: "'DM Mono', monospace"}}
+                        >
                             {data?.caption}
                         </p>
                     </div>

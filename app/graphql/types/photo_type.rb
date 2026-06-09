@@ -7,6 +7,7 @@ module Types
     field :content_type, String, null: false, description: "MIME type of the photo"
     field :filename, String, null: false, description: "Filename of the photo"
     field :byte_size, Integer
+    field :event_name, String, null: true, description: "Name of the event associated with the photo"
     field :folder, Types::FolderType, null: true, description: "Folder containing the photo"
     field :faces, Types::FaceType.connection_type, null: false, description: "Faces in the photo"
     field :is_purchased, Boolean, null: false, description: "Whether the photo has been purchased"
@@ -18,6 +19,10 @@ module Types
     def facial_recognition_url
       face_image = @object.images.select { |img| img.content_type == "image/jpeg" }.first
       face_image&.url
+    end
+
+    def event_name
+      nil
     end
 
     def taken_at

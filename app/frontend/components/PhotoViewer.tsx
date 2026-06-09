@@ -6,7 +6,7 @@ import {PhotoViewerFragment$key} from "./__generated__/PhotoViewerFragment.graph
 
 const PHOTO_FRAGMENT = graphql`
 fragment PhotoViewerFragment on Photo {
-    id
+    id @required(action: THROW)
     previewUrl
     alternateDescription
     isPurchased
@@ -18,30 +18,22 @@ interface PhotoViewerProps {
     photo: PhotoViewerFragment$key | null;
     open: boolean;
     onClose: () => void;
-    onPurchase: (photo: PhotoViewerFragment$key) => void;
+    onPurchase: (photo: string) => void;
     onNavigate: (photo: PhotoViewerFragment$key) => void;
 }
 
-export function PhotoViewer({photo, open, onClose, onPurchase}: PhotoViewerProps) {
-
+export function PhotoViewer({photo, open, onClose, onPurchase, onNavigate}: PhotoViewerProps) {
     if (!open || !photo) return null;
+
     const data = useFragment(PHOTO_FRAGMENT, photo!);
 
     const hasPrev = true;
     const hasNext = true;
 
     return (
-        <div
-            className="fixed inset-0 z-50 flex items-center justify-center"
-            style={{background: "rgba(0,0,0,0.92)"}}
-            onClick={onClose}
-        >
+        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{background: "rgba(0,0,0,0.92)"}} onClick={onClose}>
             {/* Close */}
-            <button
-                className="absolute top-4 right-4 p-2 rounded transition-colors hover:bg-white/10"
-                style={{color: "var(--foreground)"}}
-                onClick={onClose}
-            >
+            <button className="absolute top-4 right-4 p-2 rounded transition-colors hover:bg-white/10" style={{color: "var(--foreground)"}} onClick={onClose}>
                 <X className="w-5 h-5"/>
             </button>
 
@@ -89,25 +81,10 @@ export function PhotoViewer({photo, open, onClose, onPurchase}: PhotoViewerProps
                     />
                     {!data.isPurchased && (
                         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                            <p
-                                style={{
-                                    fontFamily: "'Playfair Display', serif",
-                                    color: "var(--foreground)",
-                                    fontSize: "1.125rem",
-                                    textAlign: "center",
-                                }}
-                            >
+                            <p className="gallery-button-caption">
                                 Purchase to view full resolution
                             </p>
-                            <Button
-                                style={{
-                                    background: "var(--primary)",
-                                    color: "var(--primary-foreground)",
-                                    fontFamily: "'Inter', sans-serif",
-                                    borderRadius: "var(--radius-sm)",
-                                }}
-                                onClick={() => onPurchase(photo)}
-                            >
+                            <Button className="gallery-button" onClick={() => onPurchase(data.id)}>
                                 <ShoppingCart className="w-4 h-4 mr-2"/>
                                 Purchase for
                             </Button>
@@ -135,31 +112,13 @@ export function PhotoViewer({photo, open, onClose, onPurchase}: PhotoViewerProps
                     </div>
                     <div className="flex items-center gap-2">
                         {data.isPurchased ? (
-                            <Button
-                                size="sm"
-                                style={{
-                                    background: "var(--primary)",
-                                    color: "var(--primary-foreground)",
-                                    fontFamily: "'Inter', sans-serif",
-                                    borderRadius: "var(--radius-sm)",
-                                }}
-                            >
+                            <Button size="sm" className="gallery-button">
                                 <Download className="w-4 h-4 mr-1.5"/>
                                 Download
                             </Button>
                         ) : (
-                            <Button
-                                size="sm"
-                                style={{
-                                    background: "var(--primary)",
-                                    color: "var(--primary-foreground)",
-                                    fontFamily: "'Inter', sans-serif",
-                                    borderRadius: "var(--radius-sm)",
-                                }}
-
-                            >
+                            <Button size="sm" className="gallery-button">
                                 <ShoppingCart className="w-4 h-4 mr-1.5"/>
-
                             </Button>
                         )}
                     </div>
