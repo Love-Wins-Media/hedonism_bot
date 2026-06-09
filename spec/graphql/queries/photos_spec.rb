@@ -1,23 +1,27 @@
 require 'rails_helper'
 
-RSpec.describe "GraphQL Photos Query", type: :request do
+RSpec.describe "GraphQL Photos Query", type: :graphql do
   before do
     mock_tenant
+    5.times do
+      create(:photo, tenant: tenant)
+    end
   end
 
-  it "queries photos" do
-    tenant = Tenant.default_tenant
-    create(:photo, tenant: tenant)
-    query = <<~GQL
+  let(:tenant) { Tenant.default_tenant }
+
+  let(:query) do
+    <<~GQL
       query {
         photos {
           id
         }
       }
     GQL
-    post "/graphql", params: { query: query }
-    expect(response).to have_http_status(:ok)
-    json = JSON.parse(response.body)
-    expect(json["data"]["photos"]).not_to be_empty
+  end
+
+  it "queries photos" do
+    execute_graphql(query)
+    expect(data["photos"].length).to be(5)
   end
 end

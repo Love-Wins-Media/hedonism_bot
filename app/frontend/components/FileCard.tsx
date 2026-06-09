@@ -1,6 +1,5 @@
 import { type UploadFile } from './UploadPage'
 import {CheckCircle2, Loader2, X, XCircle} from "lucide-react";
-import {isSafari} from "react-device-detect";
 import {useState} from "react";
 import {heicTo} from "heic-to";
 

@@ -160,7 +160,7 @@
     <orderEntry type="library" scope="PROVIDED" name="mini_magick (v5.3.1, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.1.5, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="minitest (v6.0.6, rbenv: 4.0.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="msgpack (v1.8.1, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="msgpack (v1.8.2, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multi_test (v1.1.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mutex_m (v0.3.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="neighbor (v1.2.0, rbenv: 4.0.5) [gem]" level="application" />
@@ -223,7 +223,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.13.7, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop (v1.87.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-ast (v1.49.1, rbenv: 4.0.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rubocop-performance (v1.26.1, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="TEST" name="rubocop-performance (v1.26.1, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-rails (v2.35.4, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="TEST" name="rubocop-rails-omakase (v1.1.0, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="TEST" name="rubocop-rake (v0.7.1, rbenv: 4.0.5) [gem]" level="application" />

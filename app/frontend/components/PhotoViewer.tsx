@@ -23,10 +23,9 @@ interface PhotoViewerProps {
     open: boolean;
     onClose: () => void;
     onPurchase: (photo: string) => void;
-    onNavigate?: (photo: string) => void;
 }
 
-export function PhotoViewer({id, open, onClose, onPurchase, onNavigate}: PhotoViewerProps) {
+export function PhotoViewer({id, open, onClose, onPurchase}: PhotoViewerProps) {
     if (!open || !id) return null;
 
     const data = useLazyLoadQuery<PhotoViewerQuery>(PHOTO_QUERY, {id: id});

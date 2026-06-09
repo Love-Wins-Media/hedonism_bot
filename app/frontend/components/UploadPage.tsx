@@ -18,10 +18,6 @@ export interface UploadFile {
     errorMsg?: string;
 }
 
-interface UploadPageProps {
-    onBack?: () => void;
-}
-
 type Files = FileList | File[]
 
 function stripExtension(filename: string) {
@@ -33,7 +29,7 @@ function getExtension(filename: string) {
     return extension.toLowerCase();
 }
 
-export function UploadPage({ onBack }: UploadPageProps) {
+export function UploadPage() {
     const [files, setFiles] = useState<UploadFile[]>([]);
     const [dragging, setDragging] = useState(false);
     const [uploading, setUploading] = useState(false);
@@ -48,7 +44,7 @@ export function UploadPage({ onBack }: UploadPageProps) {
             const rawPhotos = imageFiles.filter(file => RAW_FORMAT_EXTENSIONS.includes(getExtension(file.name)));
             const processedPhotos = new Set(imageFiles).difference(new Set(rawPhotos));
 
-            let uploads: Record<string, UploadFile> = {};
+            const uploads: Record<string, UploadFile> = {};
 
             for (const rawPhoto of rawPhotos) {
                 const basename = stripExtension(rawPhoto.name);
@@ -77,8 +73,8 @@ export function UploadPage({ onBack }: UploadPageProps) {
             }
 
             setFiles(prev => {
-                let existing = Object.fromEntries(prev.map(f => [f.title, f]));
-                let newValues = {
+                const existing = Object.fromEntries(prev.map(f => [f.title, f]));
+                const newValues = {
                     ...existing,
                     ...uploads
                 };
@@ -113,7 +109,7 @@ export function UploadPage({ onBack }: UploadPageProps) {
     const removeFile = (id: string) => {
         setFiles((prev) => {
             const f = prev.find((f) => f.id === id);
-            if (f) f.previewUrl && URL.revokeObjectURL(f.previewUrl);
+            if (f?.previewUrl) { URL.revokeObjectURL(f.previewUrl); }
             return prev.filter((f) => f.id !== id);
         });
     };

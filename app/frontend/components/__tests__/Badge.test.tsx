@@ -9,13 +9,13 @@ describe('Badge Component', () => {
         render(<Badge>Default Badge</Badge>);
         const badge = screen.getByText('Default Badge');
         expect(badge).toBeInTheDocument();
-        expect(badge.className).toContain('bg-primary');
+        expect(badge.className).toContain('badge-default');
     });
 
     it('renders correctly with secondary variant', () => {
         render(<Badge variant="secondary">Secondary Badge</Badge>);
         const badge = screen.getByText('Secondary Badge');
         expect(badge).toBeInTheDocument();
-        expect(badge.className).toContain('bg-secondary');
+        expect(badge.className).toContain('badge-secondary');
     });
 });

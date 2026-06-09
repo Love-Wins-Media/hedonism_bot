@@ -42,7 +42,7 @@ export function ScrollBar({
         <ScrollAreaPrimitive.ScrollAreaScrollbar
             data-slot="scroll-area-scrollbar"
             orientation={orientation}
-            className={scrollAreaVariants({direction: orientation})}
+            className={clsx(className, scrollAreaVariants({direction: orientation}))}
             {...props}>
 
             <ScrollAreaPrimitive.ScrollAreaThumb data-slot="scroll-area-thumb" className="scroll-area-thumb" />

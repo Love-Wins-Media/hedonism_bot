@@ -308,7 +308,7 @@ GEM
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
-    msgpack (1.8.1)
+    msgpack (1.8.2)
     multi_test (1.1.0)
     mutex_m (0.3.0)
     neighbor (1.2.0)
@@ -661,6 +661,7 @@ DEPENDENCIES
   rbs_rails
   redis
   rspec-rails
+  rubocop-performance
   rubocop-rails-omakase
   rubocop-rake
   rubocop-rspec
@@ -796,7 +797,7 @@ CHECKSUMS
   mini_magick (5.3.1) sha256=29395dfd76badcabb6403ee5aff6f681e867074f8f28ce08d78661e9e4a351c4
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
   minitest (6.0.6) sha256=153ea36d1d987a62942382b61075745042a2b3123b1cd48f4c3675af9cc7d6f1
-  msgpack (1.8.1) sha256=3fef787cd3965fd119c08a22724a56a93ca25008c3421fc15039f603a8b7c86c
+  msgpack (1.8.2) sha256=e440d11c99d6dfe8b2fbc4feb74c3518c1ba024357c70bbd734d9bb1a44d0d25
   multi_test (1.1.0) sha256=e9e550cdd863fb72becfe344aefdcd4cbd26ebf307847f4a6c039a4082324d10
   mutex_m (0.3.0) sha256=cfcb04ac16b69c4813777022fdceda24e9f798e48092a2b817eb4c0a782b0751
   neighbor (1.2.0) sha256=29c4a6881ab7287c605cc252f72cd8d24546780e9e85efbea878362881e28196

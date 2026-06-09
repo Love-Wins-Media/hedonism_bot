@@ -10,7 +10,8 @@ export default defineConfig([
             'node_modules/**',
             'public/vite-dev/**',
             'public/vite-test/**',
-            'app/assets/builds/**'
+            'app/assets/builds/**',
+            'vitest.*'
         ],
     },
     {
@@ -24,6 +25,18 @@ export default defineConfig([
     tseslint.configs.recommended,
     pluginReact.configs.flat.recommended,
     {
+        languageOptions: {
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            }
+        },
+        settings: {
+            react: {
+                version: '19',
+            },
+        },
         rules: {
             "react/react-in-jsx-scope": "off",
             '@typescript-eslint/no-unused-vars': [

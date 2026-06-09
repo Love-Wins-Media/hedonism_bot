@@ -10,7 +10,7 @@ module Mutations
     argument :caption, String, required: true
 
     def resolve(id:, caption:)
-      caption_photo = Photo.find(id)
+      caption_photo = GlobalID::Locator.locate(id)
 
       caption_photo.update(caption: caption)
       { photo: caption_photo }

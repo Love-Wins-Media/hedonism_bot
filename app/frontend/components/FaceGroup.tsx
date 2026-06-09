@@ -21,7 +21,7 @@ interface FaceGroupProps {
 }
 
 export function FaceGroup({faces, selectedFaceId, onSelect}: FaceGroupProps) {
-    let [faceId, setFaceId] = useState<string | null>(selectedFaceId);
+    const [faceId, setFaceId] = useState<string | null>(selectedFaceId);
     const data = useFragment(FACES_FRAGMENT, faces);
     return data ? (
         <div className="flex flex-col gap-2">

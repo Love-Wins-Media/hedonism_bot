@@ -266,7 +266,7 @@ export default function App() {
                 id={viewerPhoto}
                 open={viewerPhoto !== null}
                 onClose={() => setViewerPhoto(null)}
-                onPurchase={(p) => {
+                onPurchase={(_id) => {
                     setViewerPhoto(null);
                 }}
             />

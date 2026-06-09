@@ -5,9 +5,9 @@ Around do |scenario, block|
     @browser = playwright.chromium.launch(headless: true)
     @context = @browser.new_context
     @page = @context.new_page
-    
+
     block.call # This runs the scenario
-    
+
     @page.close
     @context.close
     @browser.close
