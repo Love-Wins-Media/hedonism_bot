@@ -9,7 +9,8 @@
     "lint": "eslint",
     "preview": "vite preview",
     "relay": "relay-compiler --watch",
-    "knip": "knip"
+    "knip": "knip",
+    "test:run": "vitest run --config=vitest.config.ts"
   },
   "knip": {
     "entry": [
@@ -55,6 +56,7 @@
     "@testing-library/react": "^16.3.2",
     "@types/canvas-confetti": "~1.9.0",
     "@types/hotwired__turbo-rails": "~8.0.0",
+    "@types/jsdom": "^28.0.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@types/react-slick": "~0.23.13",
@@ -65,6 +67,7 @@
     "date-fns": "3.6.0",
     "embla-carousel-react": "8.6.0",
     "eslint": "^10.4.1",
+    "eslint-formatter-compact": "^9.0.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",

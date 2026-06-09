@@ -15,10 +15,35 @@
 #
 # Uncomment the following lines to make the configuration take effect.
 
-#PreCommit:
-#  RuboCop:
-#    enabled: true
-#    on_warn: fail # Treat all warnings as failures
+PreCommit:
+  RuboCop:
+    enabled: true
+    on_warn: fail # Treat all warnings as failures
+
+  EsLint:
+    enabled: true
+    command: [ 'bun', 'run', 'lint', '--', '-f', 'compact' ]
+
+  SteepCheck:
+    enabled: true
+    description: 'Run Steep static type checker'
+    required: true
+    execute: [ 'bundle', 'exec', 'steep', 'check' ]
+
+  RakeTarget:
+    enabled: true
+    targets: [ 'rbs_rails:all', 'graphql:schema:dump', 'relay:compile' ]
+
+  Vitest:
+    enabled: true
+    description: 'Runs Vitest unit tests'
+    required: true
+    command: [ 'bun', 'run', 'test:run' ] # Or pnpm, yarn, bun depending on your package manager
+
+
+PrePush:
+  RSpec:
+    enabled: true
 #
 #  TrailingWhitespace:
 #    enabled: true
