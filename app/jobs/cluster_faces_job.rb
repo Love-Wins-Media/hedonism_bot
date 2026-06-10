@@ -1,5 +1,6 @@
 class ClusterFacesJob < ApplicationJob
   queue_as :default
+  limits_concurrency to: 1, key: nil
 
   def perform
     Person.delete_all

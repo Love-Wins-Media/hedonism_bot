@@ -12,6 +12,8 @@ module Mutations
 
     def resolve(id:, caption:, description:)
       caption_photo = GlobalID::Locator.locate(id) #: Photo
+      caption = caption || caption_photo.caption
+      description = description || caption_photo.description
 
       caption_photo.update(caption: caption, description: description)
       { photo: caption_photo }

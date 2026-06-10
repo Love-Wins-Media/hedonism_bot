@@ -57,6 +57,7 @@
     <orderEntry type="library" scope="PROVIDED" name="actiontext (v8.1.3, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionview (v8.1.3, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activejob (v8.1.3, rbenv: 4.0.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activejob-locking (v0.6.2, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activemodel (v8.1.3, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activerecord (v8.1.3, rbenv: 4.0.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activerecord-postgis (v0.5.1, rbenv: 4.0.5) [gem]" level="application" />

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1d4aabd995cdffc462fa77924bb4cbb3>>
+ * @generated SignedSource<<edbccbd50b51658232307dbe50680953>>
  * @lightSyntaxTransform
  */
 
@@ -10,6 +10,7 @@
 import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type PhotoFragment$data = {
+  readonly alternateDescription: string;
   readonly caption: string | null | undefined;
   readonly eventName: string | null | undefined;
   readonly id: string;
@@ -70,12 +71,19 @@ const node: ReaderFragment = {
       "kind": "ScalarField",
       "name": "caption",
       "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "alternateDescription",
+      "storageKey": null
     }
   ],
   "type": "Photo",
   "abstractKey": null
 };
 
-(node as any).hash = "9cbb070088501717ee90f1ddfc49552d";
+(node as any).hash = "8d28c1bfc9f035e971ad6f4187b9e2a0";
 
 export default node;

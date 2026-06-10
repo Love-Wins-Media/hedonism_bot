@@ -14,6 +14,7 @@ const PHOTO_CARD_FRAGMENT = graphql`
     previewUrl
     takenAt
     caption
+    alternateDescription
   }
 `;
 
@@ -82,7 +83,7 @@ export function PhotoCard({ photo, onSelect, onPurchase }: PhotoCardProps) {
                 fontSize: "0.8125rem",
               }}
             >
-              Event Name
+              {data.eventName}
             </p>
             <p
               className="text-xs mb-0.5 truncate"
@@ -91,7 +92,7 @@ export function PhotoCard({ photo, onSelect, onPurchase }: PhotoCardProps) {
                 fontFamily: "'DM Mono', monospace",
               }}
             >
-              {data?.caption}
+              {data.alternateDescription}
             </p>
           </div>
           <div className="flex gap-1.5 ml-2 shrink-0">

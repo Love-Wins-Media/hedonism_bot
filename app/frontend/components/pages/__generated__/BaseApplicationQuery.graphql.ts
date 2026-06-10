@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<55215841ca1c1247f6f5bdfc31812384>>
+ * @generated SignedSource<<2137e46864b1993347e986c6b02c2a99>>
  * @lightSyntaxTransform
  */
 
@@ -237,6 +237,13 @@ return {
             "kind": "ScalarField",
             "name": "caption",
             "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "alternateDescription",
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -244,12 +251,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "32c95f1bf1c5abd329ed819267c0e00a",
+    "cacheID": "4fc280310b9713c5bf5b39e5e558f202",
     "id": null,
     "metadata": {},
     "name": "BaseApplicationQuery",
     "operationKind": "query",
-    "text": "query BaseApplicationQuery(\n  $faceId: ID\n  $folderId: ID\n) {\n  folders(faceId: $faceId) {\n    nodes {\n      id\n      name\n      photoCount\n    }\n  }\n  faces(folderId: $folderId) {\n    ...FaceFragment_faces\n  }\n  photos(faceId: $faceId, folderId: $folderId) {\n    id\n    ...PhotoCollection_photos\n  }\n}\n\nfragment FaceFragment_face on Face {\n  id\n  thumbnailUrl\n  photoCount\n}\n\nfragment FaceFragment_faces on FaceConnection {\n  nodes {\n    id\n    ...FaceFragment_face\n  }\n}\n\nfragment PhotoCollection_photos on Photo {\n  id\n  ...PhotoFragment\n}\n\nfragment PhotoFragment on Photo {\n  id\n  eventName\n  isPurchased\n  previewUrl\n  takenAt\n  caption\n}\n"
+    "text": "query BaseApplicationQuery(\n  $faceId: ID\n  $folderId: ID\n) {\n  folders(faceId: $faceId) {\n    nodes {\n      id\n      name\n      photoCount\n    }\n  }\n  faces(folderId: $folderId) {\n    ...FaceFragment_faces\n  }\n  photos(faceId: $faceId, folderId: $folderId) {\n    id\n    ...PhotoCollection_photos\n  }\n}\n\nfragment FaceFragment_face on Face {\n  id\n  thumbnailUrl\n  photoCount\n}\n\nfragment FaceFragment_faces on FaceConnection {\n  nodes {\n    id\n    ...FaceFragment_face\n  }\n}\n\nfragment PhotoCollection_photos on Photo {\n  id\n  ...PhotoFragment\n}\n\nfragment PhotoFragment on Photo {\n  id\n  eventName\n  isPurchased\n  previewUrl\n  takenAt\n  caption\n  alternateDescription\n}\n"
   }
 };
 })();

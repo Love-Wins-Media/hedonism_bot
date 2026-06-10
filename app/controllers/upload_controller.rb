@@ -7,6 +7,9 @@ class UploadController < ApplicationController
     Photo.where(facial_metadata: nil).each do |photo|
       FaceDetectionJob.perform_now(photo)
     end
+    Photo.where(caption: nil).each do |photo|
+      PhotoDescriptionJob.perform_now(photo)
+    end
     ClusterFacesJob.perform_now
 
     head :ok

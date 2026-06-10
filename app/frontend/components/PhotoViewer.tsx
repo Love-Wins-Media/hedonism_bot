@@ -94,7 +94,7 @@ export function PhotoViewer({
         <div className="relative w-full max-h-[70vh] flex items-center justify-center">
           <ImageWithFallback
             src={data.node.previewUrl ?? "A gallery image"}
-            alt={data.node.alternateDescription}
+            alt={data.node.alternateDescription ?? "Cannot describe the photo+"}
             className="max-w-full max-h-[70vh] object-contain"
             style={{
               borderRadius: "var(--radius-sm)",

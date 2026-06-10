@@ -42,7 +42,7 @@ module Types
     end
 
     def alternate_description
-      "TODO: Replace me with a for the blind description of the image"
+      @object.description || "Cannot describe the photo+"
     end
 
     def preview_url
