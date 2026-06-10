@@ -2,11 +2,11 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import "@testing-library/jest-dom/vitest";
-import { Button } from "../controls/Button";
+import { Label } from "../Label";
 
-describe("Button Component", () => {
+describe("Label Component", () => {
   it("renders with text", () => {
-    render(<Button>Click me</Button>);
-    expect(screen.getByText("Click me")).toBeInTheDocument();
+    render(<Label>Test Label</Label>);
+    expect(screen.getByText("Test Label")).toBeInTheDocument();
   });
 });

@@ -222,10 +222,9 @@ export function UploadPage() {
   const uploadingCount = files.filter((f) => f.status === "uploading").length;
   const doneCount = files.filter((f) => f.status === "done").length;
   const errorCount = files.filter((f) => f.status === "error").length;
-  const totalProgress =
-    files.length === 0
-      ? 0
-      : files.reduce((sum, f) => sum + f.progress, 0) / files.length;
+  const totalProgress = Math.round(
+    files.length === 0 ? 0 : ((doneCount + 0.0) / (files.length + 0.0)) * 100,
+  );
 
   const isEmpty = files.length === 0;
 
@@ -430,8 +429,8 @@ export function UploadPage() {
                     fontFamily: "'DM Mono', monospace",
                   }}
                 >
-                  {Math.round(totalProgress)}% — {uploadingCount} uploading,{" "}
-                  {doneCount} done
+                  {totalProgress}% — {uploadingCount} uploading, {doneCount}{" "}
+                  done
                 </p>
               </div>
             )}

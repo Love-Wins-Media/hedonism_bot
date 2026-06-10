@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import "@testing-library/jest-dom/vitest";
-import { Badge } from "../controls/Badge";
+import { Badge } from "../Badge";
 
 describe("Badge Component", () => {
   it("renders correctly with default variant", () => {

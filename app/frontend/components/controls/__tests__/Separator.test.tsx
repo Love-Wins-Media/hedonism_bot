@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import "@testing-library/jest-dom/vitest";
-import { Separator } from "../controls/Separator";
+import { Separator } from "../Separator";
 
 describe("Separator Component", () => {
   it("renders without crashing", () => {

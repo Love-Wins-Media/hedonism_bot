@@ -2,12 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import "@testing-library/jest-dom/vitest";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from "../controls/Dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "../Dialog";
 
 describe("Dialog Component", () => {
   it("renders trigger and content", async () => {
