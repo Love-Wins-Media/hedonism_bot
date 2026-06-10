@@ -3,6 +3,15 @@
 require "celery"
 
 class UploadController < ApplicationController
+  def infer
+    Photo.where(facial_metadata: nil).each do |photo|
+      FaceDetectionJob.perform_now(photo)
+    end
+    ClusterFacesJob.perform_now
+
+    head :ok
+  end
+
   def upload
     raw_image = params[:raw_image]
     filename = ActiveStorage::Filename.new(params[:raw_image].original_filename)
